@@ -1,0 +1,240 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load tags %}
+{% load humanize %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title"> {{header}}[{{ticket}}]</h4>
+          </div>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                <span >
+                
+             </div>
+          </div>
+       </div>
+        <div class="col-md-12 row"><!--ROW -->
+        <!--FIRST BOX-->
+            <div class="col-md-4">
+                <div class="col-md-12">
+                <div class="iq-card-body">
+          
+
+
+                                    <div class="table-responsive">
+
+                                          <table class="table">
+                                              <tr>
+                                                   <td colspan="2"><b>{{bale.market_request.ticket_request_name}}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Market</td><td>{{bale.market_request.market.market_name}}</td>
+                                            </tr>
+                                              <tr>
+                                                <td>P/Society</td><td>{{bale.market_request.society.name}}</td>
+                                            </tr>
+                                              <tr>
+                                                <td>Sale No</td><td>{{bale.market_request.sales_number}}</td>
+                                            </tr>
+                                               <tr>
+                                                <td>Sale Date</td><td>{{bale.market_request.sales_date}}</td>
+                                            </tr>
+                                              <tr>
+                                                <td>Ticket NO </td><td>{{ticket}}</td>
+                                            </tr>
+
+                                          </table>
+
+                                     </div>
+                </div>
+                </div>
+       
+            </div>
+        <!--END OF FIRST BOX-->
+        <!--BODY BIG RIGHT-->
+            <div class="col-md-8">
+                <form action="" method="get">
+                    <div class="form-group">
+                    <input type="text" name="{{form.ticket_number.name}}"  class="form-control" /><button class="btn btn-primary">GET</button>
+                    </div>
+                </form>
+               <div class="iq-card-body">
+                {% if bale %}
+                     <a href="{% url 'market:request-details' request_id=bale.market_request.id %} " class="btn btn-info pull-right"><i class="la la-th-large"></i> PCN LIST</a>
+                    {% endif %}
+
+
+                  <div class="table-responsive">
+                     {% if line %}
+                     <table id="items" class="table " style="width: 100%; font-size:13px;">
+                                <thead>
+                                  <tr>
+                                      <th style="text-align:left;"><span style="font-size:17px;font-family: Arial, Helvetica, sans-serif;">Number</span></th>
+                                      <th><span style="font-size:17px;text-align:center;"> PCN</span></th>
+                                      <th><span style="font-size:17px;text-align:center;"> Purchase Grade</span></th>
+                                      <th><span style="font-size:17px;text-align:center;"> Verified Grade</span></th>
+                                        <th><span style="font-size:17px;text-align:center;"> Inhouse Grade</span></th>
+
+                                      <th><span style="font-size:17px;text-align:center;">Purchasing <br/> WT</span></th>
+                                    <!--   <th><span style="font-size:17px;text-align:center;">Loading <br/> WT</span></th>
+                                      <th><span style="font-size:17px;text-align:center;">Receiving <br/> WT</span></th> -->
+                                      <th><span style="font-size:17px;text-align:center;">Grade Price</span></th>
+                                      <th><span style="font-size:17px;text-align:center;">Tobacco<br/>Value</span></th>
+					
+                                      <th><span style="font-size:17px;">Remarks</span></th>
+					<th><span style="font-size:17px;text-align:center;">Farmer<br/></span></th>
+					<th><span style="font-size:17px;text-align:center;">Buyer<br/></span></th>
+                                  </tr>
+                                  </thead>
+                         <tbody>
+                        
+                                 <tr>
+
+                                       <td style="text-align:center;"><span style="font-size:17px;">{{line.ticket.ticket_number}} </span>  </td>
+                                     <td style="text-align:center;"><span style="font-size:17px;">{{line.pcn.pcn_no}} </span>  </td>
+                                      <td style="text-align:center;"><span style="font-size:17px; text-align:center;">{% if line.grade %}{{line.grade.grade_name }}{% endif %}  </span> </td>
+                                      <td style="text-align:center;"><span style="font-size:17px; text-align:center;">{% if line.verified_grade%}{{line.verified_grade.grade_name }}{% endif %}  </span> </td>
+                                       <td style="text-align:center;"><span style="font-size:17px; text-align:center;">{% if line.in_house_grade %}{{line.in_house_grade.grade }}{% endif %}  </span> </td>
+
+                                     {% get_transport_weight line.id  as tweight %}
+                                           {% get_rcvd_weight line.id  as Rcvweight %}
+                                     <td style="text-align:center;"><span style="font-size:17px;text-align:center;">{% if line.primary_weight %}{{line.primary_weight|floatformat:2 }}{% endif %}  </span> </td>
+                                      <!-- <td style="text-align:center;"><span style="font-size:17px; text-align:center;">{% if tweight %}{{tweight|floatformat:2|intcomma}}{% else %} {% endif %} </span>  </td>
+                                     <td style="text-align:center;"><span style="font-size:17px; text-align:center;">{% if Rcvweight %}{{Rcvweight|floatformat:2|intcomma}}{% else %} {% endif %} </span>  </td> -->
+                                      <td style="text-align:center;"><span style="font-size:17px;">{% if line.price %}${{line.price}} {% else %} {% endif %} </span> </td>
+                                      <td style="text-align:center;"><span style="font-size:17px;text-align:center;">{% if line.value %}{{line.value|floatformat:3|intcomma }}{% endif %}</span>    </td>
+
+                                      <td style="text-align:center;"><span style="font-size:17px;text-align:center;">{% if line.status %}{% translate line.status %} {% endif %} </span> </td>
+					 <td style="text-align:center;"><span style="font-size:17px;text-align:center;">{% if line.farmer %}{{line.farmer.farmer_code}} {% endif %} </span> </td>
+					 <td style="text-align:center;"><span style="font-size:17px;text-align:center;">{% if line.buyer_code %}{{line.buyer_code}} {% endif %} </span> </td>
+
+
+
+                                  </tr>
+
+                                  
+
+                                </tbody>
+
+                                </table>
+                                {% endif %}
+
+                  </div>
+      
+        <!--BODY 2-->
+            </div><!--ROW /-->
+<!--MARKET TO WAREHOUSE SHIPMENT-->
+          <div class="table-responsive">
+            <h4>MARKET TO WAREHOUSE</h4>
+             <table class="table mb-0 ">
+                <thead class="thead-light ">
+                   <tr>
+                  <!--   <th scope="col"  style="text-align:center;">SN</th> -->
+              
+                      <th scope="col"  style="text-align:center;">TICKET</th>
+                      <th scope="col"  style="text-align:center;">BUYING GRADE</th>
+                      <th scope="col"  style="text-align:center;">TRANSPORT WEIGHT</th>
+                      <th scope="col"  style="text-align:center;">RECEIVING WEIGHT</th>
+                      
+                   </tr>
+                </thead>
+                <tbody>
+                {% if not mshipmentinfo %}
+                  <div class="alert alert-info text-center col-md-12">There is No Market to warehouse data!</div>
+                {% endif %}
+                {% set_str mshipmentinfo as line %}
+                   <tr>
+                   <!--  <td  style="text-align:center;">{{forloop.counter}}</td> -->
+                   
+                      
+                       <td  style="text-align:center;">{{constn}}{{line.bale.ticket.ticket_number}}</td>
+                       <td  style="text-align:center;">{{line.bale.grade.grade_name}}</td>
+                       <td  style="text-align:center;">{{line.transport_weight}}</td>
+                       <td  style="text-align:center;">{{line.received_weight}}</td>
+                      
+                     
+
+                   </tr>
+                
+                 
+                </tbody>
+             </table>
+
+          </div>
+
+<!--END MARKET-->
+
+            <!--SHIPMENT INFOR -->
+                 
+          <div class="table-responsive">
+            <h4>WAREHOUSE TO PROCESSING</h4>
+             <table class="table mb-0 ">
+                <thead class="thead-light ">
+                   <tr>
+                  <!--   <th scope="col"  style="text-align:center;">SN</th> -->
+                      <th scope="col"  style="text-align:center;">DATE</th>
+                      <th scope="col"  style="text-align:center;">MARKET</th>
+                      <th scope="col"  style="text-align:center;">TRACKNO</th>
+                      <th scope="col"  style="text-align:center;">TICKET</th>
+                      <th scope="col"  style="text-align:center;">BUYING GRADE</th>
+                      <th scope="col"  style="text-align:center;">INHOUSE GRADE</th>
+                      <th scope="col"  style="text-align:center;">TRANSPORT WEIGHT</th>
+                      <th scope="col"  style="text-align:center;">SHIPMENTNO</th>
+                      
+                      <th scope="col"  style="text-align:center;">BUYER CODE</th>
+                   </tr>
+                </thead>
+                <tbody>
+                {% if not mshipmentinfo %}
+                  <div class="alert alert-info text-center col-md-12">There is No Market to warehouse data!</div>
+                {% endif %}
+                {% set_str gshipmentinfo as line %}
+                   <tr>
+                   <!--  <td  style="text-align:center;">{{forloop.counter}}</td> -->
+                      <td  style="text-align:center;">{{line.bale.market_request.sales_date|date:"m/d/Y"}}</td>
+                      <td  style="text-align:center;">{{line.general_shipment.from_warehouse}}</td>
+                      <td  style="text-align:center;">{{line.general_shipment.track.reg_number}}</td>
+                       <td  style="text-align:center;">{{constn}}{{line.bale.ticket.ticket_number}}</td>
+                       <td  style="text-align:center;">{{line.bale.verified_grade.grade_name}}</td>
+                       <td  style="text-align:center;">{{line.bale.in_house_grade.grade}}</td>
+                       <td  style="text-align:center;">{{line.transport_weight}}</td>
+                       <td  style="text-align:center;">{{line.general_shipment.shipment_number}}</td>
+
+                       <td  style="text-align:center;">{{line.bale.verifier.code}}</td>
+                      
+                     
+
+                   </tr>
+                
+                 
+                </tbody>
+             </table>
+
+          </div>
+      </div>
+
+            <!--END-->
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+     {% block js %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tbl').DataTable( {
+            paging:false,
+            ordering:false,
+
+    } );
+    });
+</script>
+{% endblock %}

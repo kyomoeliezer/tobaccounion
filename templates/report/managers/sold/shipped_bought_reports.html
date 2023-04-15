@@ -1,0 +1,114 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load tags %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">{{header}}</h4>
+          </div>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                
+
+             </div>
+          </div>
+       </div>
+       <div class="iq-card-body">
+         <div class="row col-md-12">
+        
+          <div class="col-md-12">
+            
+          <div class="table-responsive">
+                <table class="table table-bordered tbl">
+                  <thead>
+               <tr>
+                  <th>SHIPMENT</th>
+                  <th>FROM</th>
+                  <th>TO</th>
+                  <th>BALES</th>
+                    <th>KGS</th>
+                    <th>SHIP-KGS</th>
+                    <th>FARMER VALUE(FV)<br>
+                        (farmer_grade X farmer_weight)</th>
+                    <th>VERIFIED VALUE<br>
+                        (verified_grade X farmer_weight)
+                    </th>
+                    <th>TRANS. VALUE(TV)<br>
+                        (verified_grade X transport_weight)</th>
+                    <th>LOSS/GAIN<br>
+                        (TV-FV)</th>
+                    
+               </tr>
+               </thead>
+               <tbody>
+               {% for total in shippedvalues %}
+               <tr>
+                  <td>{{total.shipmentno}}</td>
+                  <td>{{total.fromw}}</td>
+                  <td>{{total.tow}}</td>
+                  <td>{{total.balesb|intcomma}}</td>
+                  <td>{{total.kgb|floatformat:2|intcomma}}</td>
+                  <td>{{total.shipmentkgb|floatformat:2|intcomma}}</td>
+                  <td>{{total.valueb|floatformat:2|intcomma}}</td>
+                  <td>{{total.valueverified|floatformat:2|intcomma}}</td>
+                  <td>{{total.shipmentvalue|floatformat:2|intcomma}}</td>
+                  {% if total.shipmentvalue %} {% toa total.valueb total.shipmentvalue  as deff  %} {% endif %}
+                  <td style="text-align:right;">{% if total.shipmentvalue %} {{deff|floatformat:2|intcomma}} {% else %} {%endif %}</td>
+               </tr>
+               {% endfor %}
+                {% for total in totals %}
+               <tr>
+                  <td bgcolor="#e5e5e5"><b>TOTAL</b></td>
+                    <td bgcolor="#e5e5e5"><b></b></td>
+                  <td bgcolor="#e5e5e5"><b></b></td>
+                 <td bgcolor="#e5e5e5">{{total.balesb|intcomma}}</td>
+                  <td bgcolor="#e5e5e5">{{total.kgb|floatformat:2|intcomma}}</td>
+                  <td bgcolor="#e5e5e5">{{total.shipmentkgb|floatformat:2|intcomma}}</td>
+                  <td bgcolor="#e5e5e5">{{total.valueb|floatformat:2|intcomma}}</td>
+                  <td bgcolor="#e5e5e5">{{total.valueverified|floatformat:2|intcomma}}</td>
+                  <td bgcolor="#e5e5e5">{{total.shipmentvalue|floatformat:2|intcomma}}</td>
+                  {% if total.shipmentvalue %} {% toa total.valueb total.shipmentvalue  as deff  %} {% endif %}
+                  <td bgcolor="#e5e5e5" style="text-align:right;">{% if total.shipmentvalue %} {{deff|floatformat:2|intcomma}} {% else %}{% endif %}</td>
+               </tr>
+                {% endfor %}
+               </tbody>
+             </table>
+          </div>
+       </div>
+    </div>
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+{% block js %}
+{% load static %}
+<script type="text/javascript" src="{% static 'datatable/dataTables.buttons.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/jszip.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/pdfmake.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/vfs_fonts.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/buttons.html5.min.js' %}"></script>
+
+   <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tbl').DataTable( {
+        destroy: true,
+        paging:false,
+        ordering:false,
+        dom: 'Bfrtip',
+
+        buttons: [
+         'excel'
+        ]
+    } );
+    });
+</script>
+{% endblock %}

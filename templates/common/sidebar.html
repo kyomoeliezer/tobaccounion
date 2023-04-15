@@ -1,0 +1,197 @@
+<div id="sidebar-scrollbar">
+    <nav class="iq-sidebar-menu">
+       <ul id="iq-sidebar-toggle" class="iq-menu">
+         {% if user != 'AnonymousUser' %} <!--if is loged in -->
+         {% if  'supervisor' in user.username %}
+         {% load easy %}
+         {% extra_primary as primary_ipo %}
+         {% extra_transport as ship %}
+         {% extra_processing as processingext %}
+         {% if primary_ipo > 0 or ship > 0  or processingext > 0 %}
+         <li class="active">
+            <a href="{% url 'market:beyond_the_weight'%}">
+            <div class="alert alert-danger"><marquee>EXTRA WEIGHT BALE({{primary_ipo}}) TRANSPORT({{ship}})  PROCESSING({{processingext}})</marquee></div>
+            </a>
+         </li>
+         {% endif %}
+         {% endif %}
+
+         <li class="active">
+            <a href="/" class="iq-waves-effect"><i class="las la-home iq-arrow-left"></i><span>Dashboard</span></a>
+         </li>
+         <li aria-expanded="true">
+            <a href="#reportsanalys" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><i class="la la-bar-chart iq-arrow-left"></i><span>Analysis Report</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+            <ul id="reportsanalys" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+               
+               <li><a href="{% url 'report:total-buying-report' %}"><i class="la la-th-large"></i> All Buying Report</a></li>
+               <li><a href="{% url 'report:analysed-buying-report' %}"><i class="la la-th-large"></i>Verified Buying Report</a></li>
+                 <li><a href="{% url 'report:analysed_buying_report_per_buyer' %}"><i class="la la-th-large"></i>Individual Buyer Analysis</a></li>
+                 <li><a href="{% url 'report:analysed_buying_report_buyer_summary' %}"><i class="la la-th-large"></i>ALL Buyers Summary</a></li>
+
+ 
+
+  <li><a href="{% url 'report:shipping_report' %}"><i class="la la-th-large"></i>Shiping Summary</a></li>
+                 <li><a href="{% url 'report:shipped_value_report' %}"><i class="la la-th-large"></i>Shipping Value(+/-)</a></li>
+                <li><a href="{% url 'payment:payment_balance' %}"><i class="la la-th-large"></i>Society Payments</a></li>
+
+                 
+            </ul>
+         </li>
+          <li aria-expanded="true">
+            <a href="#reports" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><i class="la la-bar-chart iq-arrow-left"></i><span>Reports</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+            <ul id="reports" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                <li><a href="{% url 'report:market-dec-form' %}"><i class="la la-la-th-large"></i>Market Declaration</a></li>
+                <li><a href="{% url 'report:society-market-sale_report' %}"><i class="la la-th-large"></i>Society Sale Report</a></li>
+                <li><a href="{% url 'report:society_paid_report' %}"><i class="la la-th-large"></i>Society Paid Report</a></li>
+                <li><a href="{% url 'report:society_buying_summary' %}"><i class="la la-th-large"></i>Society  Buying Summary</a></li>
+                
+                <li><a href="{% url 'report:region-paid-report' %}"><i class="la la-th-large"></i>Region Paid Report</a></li>
+                <li><a href="{% url 'report:grade_analysis_yearly' %}"><i class="la la-th-large"></i>Grade Analysis</a></li>
+                <li><a href="{% url 'report:society_grade_analysis_yearly' %}"><i class="la la-th-large"></i>Society Grade Analysis</a></li>
+                
+                
+
+            </ul>
+         </li>
+      
+
+         {% if request.user.is_superuser %}
+         <li aria-expanded="true">
+            <a href="#menagement" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><i class="la la-users iq-arrow-left"></i><span>Management</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+            <ul id="menagement" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+
+               <li><a href="{% url 'shipment:list-email-receivers'%}"><i class="la la-shipping-fast"></i>Shippment Emails </a></li>
+               <li><a href="{% url "auths:staff-members" %}"><i class="la la-id-badge"></i>Staffs</a></li>
+               <li><a href="{% url "auths:roles" %}"><i class="la la-user-lock"></i>Roles</a></li>
+
+
+            </ul>
+         </li>
+         {% endif %}
+         {% if request.user.is_superuser %}
+          <li aria-expanded="true">
+            <a href="#inventory" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><i class="la la-dolly iq-arrow-left"></i><span>Inventory</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+            <ul id="inventory" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+               <li><a href="{% url 'inventory:warehouses'%}"><i class="la la-warehouse"></i>Warehouses</a></li>
+              <!--  <li><a href="{% url 'inventory:regrading' %}"><i class="la la-shipping-fast"></i>Regrading</a></li> -->
+
+                {% comment %}
+                <li><a href=""><i class="la la-boxes"></i>Warehouse Bales</a></li>
+                {% endcomment %}
+            </ul>
+         </li>
+          <li>
+            <a href="{% url 'market:get_bale_info'%}"><i class="la la-clipboard iq-arrow-left"></i>Bale Status</a>
+         </li>
+         {% endif %}
+          {% if request.user.is_superuser or 'supervisor' in request.user.role.role_name|lower %}
+         
+         <li aria-expanded="true">
+            <a href="#tickets" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><i class="la la-id-card iq-arrow-left"></i><span>Boxes</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+            <ul id="tickets" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                   {% comment %}
+               <li><a href="{% url 'market:print-requests'%}"><i class="la la-print"></i>Ticket Box</a></li>
+               {% endcomment %}
+               <li><a href="{% url 'market:available-tickets'%}"><i class="la la-id-card"></i>Available Tickets</a></li>
+               <li><a href="{% url 'market:available_lists'%}"><i class="la la-id-card"></i>Available List</a></li>
+               
+               {% comment %} <li><a href="{% url 'market:used-tickets'%}"><i class="la la-print"></i>Used Tickets</a></li> {% endcomment %}
+            </ul>
+         </li>
+        
+         {% endif %}
+            {% if request.user.is_superuser or 'supervisor' in request.user.role.role_name|lower %}
+         
+         <li>
+            <a href="{% url 'market:market-ticket-requests'%}"><i class="la la-clipboard iq-arrow-left"></i>Requests</a>
+         </li>
+         <li aria-expanded="true">
+            <a href="#payment" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><i class="la la-bar-chart iq-arrow-left"></i><span>PAYMNETS</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+            <ul id="payment" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                <li><a href="{% url 'payment:payment_list' %}"><i class="la la-la-th-large"></i>Payment lists</a></li>
+                <li><a href="{% url 'payment:payment_balance' %}"><i class="la la-la-th-large"></i>Society Balances</a></li>
+            </ul>
+         </li>
+        
+         
+         
+         {% endif %}
+
+         {% if request.user.is_superuser or 'supervisor' in request.user.role.role_name|lower %}
+
+         <li aria-expanded="true">
+            <a href="#shipment" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><i class="la la-shipping-fast iq-arrow-left"></i><span>Shipment</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+            <ul id="shipment" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                <li><a href="{% url 'shipment:tcompanies' %}"><i class="la la-shipping-fast"></i>Transport Company</a></li>
+               <li><a href="{% url 'shipment:tracks' %}"><i class="la la-shipping-fast"></i>Tracks</a></li>
+               <li><a href="{% url 'shipment:drivers' %}"><i class="la la-user"></i>Track Drivers</a></li>
+               <li><a href="{% url 'shipment:market-warehouse-shipments'%}"><i class="la la-shipping-fast"></i>Market to Warehouse</a></li>
+                <li><a href="{% url 'shipment:list-custom-shipment'%}"><i class="la la-shipping-fast"></i>General Shipment</a></li>
+
+                
+                <!-- <li><a href="{% url 'market:mannual_verify'%}"><i class="la la-shipping-fast"></i>MANNUAL</a></li> -->
+                <li><a href="{% url 'market:changeb4grading'%}"><i class="la la-shipping-fast"></i>REFRESH</a></li> 
+
+
+                <!--               <li><a href="{% url 'shipment:market-processing-shipments'%}"><i class="la la-shipping-fast"></i>Market to Proccessing</a></li>
+               <li><a href="{% url 'shipment:warehouse-shipments'%}"><i class="la la-shipping-fast"></i>Warehouse to Warehouse</a></li>
+               <li><a href="{% url 'shipment:warehouse-processing-shipments'%}"><i class="la la-shipping-fast"></i>Warehouse to Processing</a></li>
+               <li><a href="{% url 'shipment:sales-shipments'%}"><i class="la la-shipping-fast"></i>Proccessing to Sales</a></li>-->
+
+            </ul>
+         </li>
+         {% endif %}
+        <!-- <li aria-expanded="true">
+            <a href="#processing" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><i class="la la-industry iq-arrow-left"></i><span>Processing</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+            <ul id="processing" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+               <li><a href=" "><i class="la la-box"></i>Product List</a></li>
+               <li><a href=""><i class="la la-boxes"></i>Product Categories</a></li>
+               <li><a href="{% url 'processing:processing-centres'%}"><i class="la la-industry"></i>Processing Centres</a></li>
+            </ul>
+         </li>-->
+
+          {% if request.user.is_superuser or 'supervisor' in request.user.role.role_name|lower %}
+         <li aria-expanded="true">
+            <a href="#setting" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><i class="la la-cog iq-arrow-left"></i><span>Settings</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+            <ul id="setting" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+               <li><a href="{% url "association:societies" %}"><i class="la la-users"></i>Primary Societies</a></li>
+               <li><a href="{% url 'market:market-list'%}"><i class="la la-building"></i>Markets</a></li>
+               <li><a href="{% url "association:farmers"%}"><i class="la la-leaf"></i>Farmers</a></li>
+               <li><a href="{% url "market:buyers"%}"><i class="la la-users"></i>Buyers</a></li>
+               <li><a href="{% url "market:verifiers"%}"><i class="la la-users"></i>Verifiers</a></li>
+               
+               <li><a href="{% url "core:grades"%}"><i class="la la-filter"></i>Grades</a></li>
+               <li><a href="{% url "core:in-house-grades"%}"><i class="la la-filter"></i>In House Grades</a></li>
+               <li><a href="{% url "core:product-grades"%}"><i class="la la-filter"></i>Product Grade</a></li>
+               <li><a href="{% url "core:grade-years"%}"><i class="la la-money"></i>Grade Prices</a></li>
+               <li><a href="{% url "core:crop-years"%}"><i class="la la-calendar"></i>Crop year</a></li>
+               <li><a href="{% url "core:regions"%}"><i class="la la-map-marked"></i>Region</a></li>
+                <li><a href="{% url "core:ticket-prefix"%}"><i class="ri-text-spacing"></i>Ticket Prefix </a></li>
+
+               <li><a href="{% url "auths:add-default-password"%}"><i class="la la-lock"></i>Default Password</a></li>
+               <li>
+                  <a href="{% url 'shipment:large_csv'%}"><i class="la la-clipboard iq-arrow-left"></i>PGt</a>
+               </li>
+            </ul>
+         </li>
+         <li>
+             <a class="bg-primary iq-sign-btn" href="{% url 'auths:logout'%}" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+         </li>
+         {% endif %}
+         {% else %}
+          <li>
+            <a href="{% url 'market:mannual_verify'%}"><i class="la la-clipboard iq-arrow-left"></i>ADD/UPDATE</a>
+         </li>
+          <li>
+            <a href="{% url 'market:m_bales'%}"><i class="la la-clipboard iq-arrow-left"></i>BALES</a>
+         </li>
+         
+         {% endif %}
+
+               </ul>
+         </li>
+
+       </ul>
+    </nav>
+    <div class="p-3"></div>
+ </div>

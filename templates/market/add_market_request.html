@@ -1,0 +1,106 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-12">
+        <div class="iq-card">
+            <div class="iq-card">
+                <div class="iq-card-header d-flex justify-content-between row">
+                   <div class="iq-header-title col-12">
+                      <h4 class="card-title">{% if form %} Edit {% else %} Create {% endif %} Market Ticket Request</h4>
+                   </div>
+                   {% if message %}
+                   <div class="alert alert-danger col-6 ml-4" role="alert">
+                     <div class="iq-alert-icon">
+                       <i class="ri-information-line"></i>
+                    </div>
+                    <div class="iq-alert-text alert-danger">{{message}}</div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <i class="ri-close-line text-danger"></i>
+                     </button>
+                 </div>
+                 {% endif %}
+                </div>
+                <div class="iq-card-body">
+
+                   <form   action="{% url 'market:add-market-ticket-request'%}"   method="post">
+                      {% csrf_token %}
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="text">Request Name:</label>
+                            <input type="text" class="form-control"  name="ticket_request_name">
+                         </div>
+                         <div class="form-group col-6">
+                            <label for="text">Select Market:</label>
+                            <select class="form-control select2" id="exampleFormControlSelect12" name="market">
+                              <option {% if form %} value="{{ form.market.id }}" {% else %} selected="" disabled="" {% endif %}> {% if form %} {{form.market.market_name}} {% else %} Select Market {% endif %}</option>
+                              {% for market in markets %}
+                              <option value="{{market.id}}" {% if form.market.value == market.id %} {% endif %}>{{market.market_name}}</option>
+                              {% endfor %}
+                           </select>
+                         </div>
+                         <div class="form-group col-6">
+                           <label for="text">Primary Society:</label>
+                           <select class="form-control select2" id="exampleFormControlSelect10" name="society">
+                             <option {% if form %} value="{{ form.society.id }}" {% else %} selected="" disabled="" {% endif %}> {% if form %} {{form.society.name}} {% else %} Select Primary Society {% endif %}</option>
+                             {% for primary in primary_societies %}
+                             <option value="{{primary.id}}" {% if form.society.value == primary.id %} selected {% endif %}>{{primary.name}}</option>
+                             {% endfor %}
+                          </select>
+                        </div>
+                        <div class="form-group col-6">
+                           <label for="text">Market Clerk:</label>
+                           <select class="form-control select2" id="exampleFormControlSelect19" name="personnel" required>
+                              <option {% if form %} value="{{ form.personnel.id }}" {% else %} selected="" disabled="" {% endif %}> {% if form %} {{form.personnel.full_name}} {% else %} Select Clerk {% endif %}</option>
+                             {% for staff in staffs %}
+                             
+                             <option value="{{staff.id}}">{{staff.full_name}}</option>
+                             {% endfor %}
+                          </select>
+                        </div>
+                       
+                         <div class="form-group col-6">
+                           <label for="number">Number of Tickets:</label>
+                           <input type="number" class="form-control" name="number_of_tickets" value="{% if form.number_of_tickets.value %} {{form.number_of_tickets.value}}{% endif %}" required>
+                        </div>
+                 
+                        <div class="form-group col-6">
+                           <label for="date">Sales Date:</label>
+                           <input type="date" class="form-control"{% if form %} value="{{ form.sales_date|date:"Y-m-d" }}" {% endif %} name="sales_date" required>
+                         </div>
+                    <div class="form-group col-6">
+                        <label for="date">Mobile Clerk:</label>
+                        <input type="text" class="form-control" name="mobile_clerk" value="{% if form.mobile_clerk.value %} {{form.mobile_clerk.value}}{% endif %}" required>
+                     </div>
+                     <div class="form-group col-6"> 
+                                <input type="checkbox" id="Mannual" name="{{form.is_mannual.name}}" value="1" {% if form.is_mannual.value %} checked {% endif %}>
+                                    <label for="vehicle1"> Is Mannual</label><br>
+                        </div>
+                     
+
+                     <div class="form-group col-6">
+                         <label for="text">Select Season:</label>
+                         <select class="form-control select2" id="exampleFormControlSelect190" name="season" required>
+                           <option selected="" >Select Season</option>
+                           {% for yr in seasons %}
+                           <option value="{{yr.id}}" {% if form.season.value == yr.id %} {% endif %}>{{yr.season_name}}</option>
+                           {% endfor %}
+                        </select>
+                      </div>
+                         <div class="col-12">
+                            <button type="submit" class="btn btn-primary float-right" >{% if form %} Save {% else %} Create {% endif %}</button>
+                         </div>
+                    </div>
+                   </form>
+                </div>
+             </div>
+        </div>
+       </div>
+       </div>
+      </dev>
+
+
+{% endblock %}

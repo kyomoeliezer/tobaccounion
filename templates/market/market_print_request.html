@@ -1,0 +1,173 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load tags %}
+{% load easy %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">Market Ticket Requests</h4>
+          </div>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                <span >
+            <a href="{% url 'market:add-market-ticket-request'%}" class="btn btn-primary la la-plus-rounded">Add</a>
+
+                </span>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton5">
+                   <a class="dropdown-item" href="#"><i class="ri-eye-fill mr-2"></i>View</a>
+                   <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-fill mr-2"></i>Delete</a>
+                   <a class="dropdown-item" href="#"><i class="ri-pencil-fill mr-2"></i>Edit</a>
+                   <a class="dropdown-item" href="#"><i class="ri-printer-fill mr-2"></i>Print</a>
+                   <a class="dropdown-item" href="#"><i class="ri-file-download-fill mr-2"></i>Download</a>
+                </div>
+             </div>
+          </div>
+       </div>
+       <div class="iq-card-body">
+          <div class="table-responsive">
+             <table class="table mb-0 tbl">
+                <thead class="thead-light">
+                   <tr>
+                    <th scope="col">SN</th>
+                      <th scope="col">Request Name</th>
+                      <th scope="col">Market Name</th>
+                      <th scope="col">Primary Society</th>
+                      <th scope="col">Clerk Name</th>
+                       <th scope="col">Initial Ticket</th>
+                       <th scope="col">Ending Ticket</th>
+                      <th scope="col"> # of Tickets</th>
+                      <th scope="col">Sales #</th>
+                      <th scope="col">Sales Date</th>
+                      <th scope="col">Status</th>
+                        <th scope="col">Detail</th>
+                      <th scope="col">Action</th>
+                      <th scope="col"></th>
+                   </tr>
+                </thead>
+                <tbody>
+                  {% if not page_obj %}
+                  <div class="alert alert-info text-center col-md-12">There is No Market Ticket Request(s) yet!</div>
+                          {% endif %}
+                          {% if message %}
+                  <div class="alert alert-danger text-center col-md-12">{{message}}</div>
+                          {% endif %}
+                    {% for market_ticket_request in page_obj%}
+                   <tr {% if market_ticket_request.is_mannual %} style="background-color: #FDEDEC;" {% endif %}>
+                     <td>{{forloop.counter}}</td>
+                      <td>{{market_ticket_request.ticket_request_name}}</td>
+                      <td>{{market_ticket_request.market.market_name}}</td>
+                      <td>{{market_ticket_request.society.name}}</td>
+                      <td>{{market_ticket_request.personnel.full_name}}</td>
+                       <td style="text-align:center;border:1px solid #e4e9f0;">{% min_ticket market_ticket_request.id %}</td>
+                       <td style="text-align:center;border:1px solid #e4e9f0;">{% max_ticket market_ticket_request.id %}</td>
+                      <td>{{market_ticket_request.number_of_tickets}}</td>
+                      <td>{{market_ticket_request.sales_number}}</td>
+                      <td>{{market_ticket_request.sales_date}}</td>
+                      <td> {% if market_ticket_request.on_pre_buying %}
+                        <div class="badge badge-pill badge-warning">On Pre-Buying</div>
+                        {% endif %}
+                        {% if not market_ticket_request.on_pre_buying and market_ticket_request.on_buying %}
+                        <div class="badge badge-pill badge-warning">On Buying</div>
+                        {% endif %}
+                        {% if not market_ticket_request.on_pre_buying and not market_ticket_request.on_buying %}
+                        <div class="badge badge-pill badge-success">Completed</div>
+                        {% endif %}
+
+                      </td>
+                       <td>
+
+                            <div class="badge badge-pill badge-success"><a href="{% if 'NONE' in   market_ticket_request.society.name or market_ticket_request.is_mannual %}  {% url 'market:request-detail-tickets' request_id=market_ticket_request.id %}{% else %}{% url 'market:request-details' request_id=market_ticket_request.id %} {% endif %}"><i class="la la-th-large"></i> Details</a></div>
+                       </td>
+                      <td>
+                        <a href="{% url 'market:edit-market-ticket-request' request_id=market_ticket_request.id %}" class="badge badge-pill badge-info"><i class="las la-pen-square"></i>   <br/></a></td>
+                        <td>
+                      {% is_latest market_ticket_request.id as latest %} 
+                        {% has_no_data market_ticket_request.id as hasdata  %}
+                     
+                       
+                       <div class="badge badge-pill badge-danger" data-toggle="modal" data-target="#delete{{market_ticket_request.id}}"><i class="las la-trash"></i></div>
+                        <div id="delete{{market_ticket_request.id}}" class="modal top" tabindex="-1">
+                           <div class="modal-dialog modal-sm ">
+                               <div class="modal-content bg-white-300">
+                                   <div class="modal-header">
+                                    <center><h5 class="modal-title text-danger" align="center">Warning</h5></center>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                   </div>
+                                   <div class="modal-body">
+                                       <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                          <i class="la la-question-circle text-danger" style="font-size:64px"></i>
+                                           <h6 class="font-weight-semibold">Do you real want to delete?</h6>
+                                       </center>
+                                   </div>
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                                       <a href="{% url 'market:delete-market-ticket-request' market_ticket_request_id=market_ticket_request.id %}"><button type="button"
+                                               class="btn bg-success">Yes</button></a>
+                                   </div>
+                               </div>
+                           </div>
+                       </div> 
+                      
+                     
+                     </td>
+                   </tr>
+                   {% endfor %}
+                </tbody>
+             </table>
+
+          </div>
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+{% block js %}
+<script type="text/javascript" src="{% static 'datatable/dataTables.buttons.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/jszip.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/pdfmake.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/vfs_fonts.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/buttons.html5.min.js' %}"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tbl').DataTable( {
+         dom: 'Bfrtip',
+        ordering:false,
+        paging:false,
+        buttons:[
+         'excelHtml5',
+            'csv',
+              {
+                    text: 'CURRENT',
+                    className: 'orange, btn btn-primary',
+                     action: function (e, dt, node, config)
+                        {
+
+                          window.location="{% url 'market:market-ticket-requests' %}"
+
+                        }
+                },
+             {
+                    text: 'COMPLETED',
+                    className: 'orange, btn btn-secondary',
+                     action: function (e, dt, node, config)
+                        {
+
+                          window.location="{% url 'market:market-ticket-requests-done' %}"
+
+                        }
+                }
+        ]
+
+    } );
+    });
+</script>
+{% endblock %}

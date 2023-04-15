@@ -1,0 +1,290 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load tags %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">PCN:{{pcn.pcn_no}} DETAIL</h4>
+          </div>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                <span >
+                <a href="{% url 'market:add-market-ticket-request'%}" class="btn btn-primary la la-plus-rounded">Add</a>
+                </span>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton5">
+                   <a class="dropdown-item" href="#"><i class="ri-eye-fill mr-2"></i>View</a>
+                   <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-fill mr-2"></i>Delete</a>
+                   <a class="dropdown-item" href="#"><i class="ri-pencil-fill mr-2"></i>Edit</a>
+                   <a class="dropdown-item" href="#"><i class="ri-printer-fill mr-2"></i>Print</a>
+                   <a class="dropdown-item" href="#"><i class="ri-file-download-fill mr-2"></i>Download</a>
+                </div>
+             </div>
+          </div>
+       </div>
+        <div class="col-md-12 row"><!--ROW -->
+        <!--FIRST BOX-->
+            <div class="col-md-12">
+                <div class="col-md-12">
+                <div class="iq-card-body">
+
+                              <a href="" class="btn btn-danger">RELEASE TICKETS</a>
+                                    <div class="table-responsive">
+
+                                          <table class="table tbl table-bordered">
+                                              <tr>
+                                                  <td>Market</td><td><b>{{market_request.market.market_name}}</b></td>
+                                                  <td>P/Society</td><td><b>{{market_request.society.name}}</b></td>
+                                              </tr>
+
+
+                                              <tr>
+                                                <td>Sale No</td><td><b>{{market_request.sales_number}}</b></td>
+                                                  <td>Sale Date</td><td><b>{{market_request.sales_date}}</b></td>
+                                            </tr>
+
+
+                                          </table>
+
+                                     </div>
+                </div>
+                </div>
+
+            </div>
+        <!--END OF FIRST BOX-->
+        <!--BODY BIG RIGHT-->
+            <div class="col-md-12">
+               <div class="iq-card-body">
+                   <div class="col-md-12">
+                       {% if  pcn.is_data_verified %}<span class="btn badge badge-success float-right">VERIFICATION: VERIFIED</span>{% else %} <span class="btn badge badge-warning float-right">VERIFICATION: NOT YET</span>{% endif %} {% if not pcn.is_data_verified %}<a href="" class="float-right btn btn-info"><i class="mdi mdi-checkbox-multiple-marked"></i> UPDATE </a><a href="" onclick="return confirm('You are about to close the PCN ! Are you sure?')" class="float-right btn btn-secondary"><i class="mdi mdi-checkbox-multiple-marked"></i> MARK AS VERIFIED </a>{% else %} <a class="badge badge-success float-right">VERIFICATION:COMPLETED</a>{% endif %}
+                   </div>
+                 <!-- <div class="table-responsive">-->
+                        <!---NEW PURCHASE FORM-->
+                              <table  class="table">
+                                <thead>
+                                  <tr>
+                                      <th>TICKET</th>
+                                      <th style="width:6%;">GRADE</th>
+                                      <th>WEIGHT</th>
+                                      <th>PRICE</th>
+                                      <th>VALUE</th>
+                                      <th>T.WEIGHT</th>
+
+                                      <th>REMARKS</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {% for tk in bales %}
+                                  <tr class="item-row">
+                                      <td class="item-name">
+                                          <input type="hidden" name="ticket_no" required class="form-control ticket_id" value="{{tk.id}}" />
+                                          {{tk.ticket.ticket_number}}</td>
+                                      {% grade_name tk.grade_id as grad %}
+                                      <td style="width:6%;">
+                                      <input type="text" value="{{grad}}" class="grade01 data-grade" name="grade"  required style="width:100%" />
+                                      </td>
+                                      <td>
+                                          <input name="weight" class="qty weight01" value="{% if tk.primary_weight %}{{tk.primary_weight}}{% endif %}" required style="width:100%;">
+                                      </td>
+                                        <td>
+                                            <input name="price" class="cost cost01" value="{% if tk.price %}${{tk.price}} {% else %} 0 {% endif %}" />
+                                        </td>
+                                      <td>
+                                          <input class="price price01 value" value="{% if tk.value %}${{tk.value}} {% endif %}"  readonly/>
+                                      </td>
+                                      <td>
+                                          {% get_transport_weight tk.id  as tweight %}
+                                           {% get_rcvd_weight tk.id  as Rcvweight %}
+                                          <input name="transport_weight" class="tweight" value="{% if tweight %}{{tweight}}{% else %} 0{% endif %}" required />
+                                      </td>
+                                      <td>
+                                          <select name="buyer_code" class="buyer_code" >
+
+                                              <option ''> </option>
+                                               {% for by in buyers %}
+                                              <option value="{{by.buyer_code}}" {% if by.buyer_code == tk.buyer_code %} selected {% endif %}>{{by.buyer_code}}</option>
+                                              {% endfor %}
+
+                                          </select>
+                                      </td>
+
+                                      <td>
+                                          <select name="remarks" class="remarks" >
+                                              <option value="OK" {% if tk.status == 'OK' %} selected {% endif %}>OK</option>
+                                              <option value="R" {% if tk.status == 'R' %} selected {% endif %}>rejected</option>
+                                              <option value="C" {% if tk.status == 'C' %} selected {% endif %}>cancelled</option>
+                                              <option value="W" {% if tk.status == 'W' %} selected {% endif %}>Withdrawn</option>
+                                          </select>
+
+                                      </td>
+                                  </tr>
+                                  {% endfor %}
+                                   <tr class="item-row">
+                                    <td class="item-name" ></td>
+
+                                      <td bgcolor="#e5e5e5" style="text-align:center;" class=""> <span style="text-align:right;" id="tbalesid"></span></td>
+                                      <td bgcolor="#e5e5e5" style="text-align:center;"><span style="text-align:right;" id="tweightid"></span></td>
+                                       <td bgcolor="#e5e5e5"><span style="text-align:right;" id="tpriceid"></span></td>
+                                      <td bgcolor="#e5e5e5"><span style="text-align:right;" id="tvalueid"></span> </td>
+                                      <td></td>
+
+                                      <td ></td>
+                                       <td ></td>
+                                  </tr>
+                                  </tbody>
+                                </table>
+                      <!----->
+
+               <!--   </div>-->
+            </div>
+        <!--BODY 2-->
+            </div><!--ROW /-->
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+{% block js %}
+
+<script>
+
+{% if market_request.season %} {% set_str market_request.season as season %} {% else %} {% current_sesson as season %} {% endif %}
+
+
+        function roundNumber(number,decimals) {
+         newString=(number).toFixed(decimals);
+          return newString;
+        }
+
+    function update_total() {
+          var total = 0;
+          $('.price').each(function(i){
+            price = $(this).html().replace("$","");
+            if (!isNaN(price)) total += Number(price);
+          });
+
+          total = roundNumber(total,2);
+          //alert(total);
+
+          $('#subtotal').html("$"+total);
+          $('#total').html("$"+total);
+
+          ///update_balance();
+        }
+
+
+
+        function update_price(row) {
+
+         //var row = $(this).parents('.item-row');
+         var price =row.find('.cost01').val(); //parseFloat(row.find('.cost').val().replace("$","")) * parseFloat(row.find('.qty').val());
+         //alert(price);
+         if (price.indexOf("$") >= 0) {
+              var price = parseFloat(row.find('.cost').val().replace("$","")) * parseFloat(row.find('.qty').val());
+             }
+          else {
+          var price = parseFloat(row.find('.cost').val()) * parseFloat(row.find('.qty').val());
+          }
+          price = roundNumber(price,2);
+          isNaN(price) ? row.find('.price').val("N/A") : row.find('.price').val("$"+price);
+
+          update_total();
+        }
+     function save_date(row){
+                //get_buyprice(row);
+                //alert(row.find('.qty').val());
+                if((row.find('.qty').val() != '')){
+                    if ((parseFloat(row.find('.qty').val()) >= 0) &&(parseFloat(row.find('.qty').val()) <= 100)){
+
+                    $.ajax({
+                        type: "GET",
+                        data: {'season_id':'{{season.id}}','value':row.find('.value').val(),'ticket_id':row.find('.ticket_id').val(),'grade':row.find('.grade01').val(),'price':row.find('.cost').val(),'weight':row.find('.qty').val(),'tweight':row.find('.tweight').val(),'remarks':row.find('.remarks').val(),'buyer_code':row.find('.buyer_code').val()},
+                        url: "{% url 'market:singe-bale-update'  request_id=market_request.id %}",
+                        success: function(data){
+
+                                //alert(data);
+                            }
+                        });
+                        }
+                        else modal_hakitoshi();
+                      }
+                      else modal_hakitoshi();
+
+        }
+         /*************ON KEY UP METHOD**************/
+
+
+        function get_buyprice(row){
+        //$('.data-grade').blur(function(){
+                var fld=row.find('.data-grade').val();
+                 //var row = $(this).parents('.item-row');
+                       $.ajax({
+                        type: "GET",
+                        data: {'name':fld},
+                        url: "{% url 'market:single-grade-price' season_id=season.id %}",
+                        success: function(data){
+                          if (data !=''){
+                            row.find('.cost').val(data);
+                            update_price(row);
+                           if(row.find('.qty').val() !='') save_date(row);
+                             }
+                           else {
+                               row.find('.cost').val(0);
+                                please_noprice(fld);
+                                }
+
+                            }
+
+                        });
+                        }
+     /*****************END KEY UP *********/
+
+
+
+
+
+        function bind() {
+          ////SAVINGS
+
+             $(".data-grade").blur(function(){get_buyprice($(this).parents('.item-row'));});
+          ////COST
+
+          $(".qty").blur(function(){update_price($(this).parents('.item-row'));});
+
+           //$(".cost").blur(function(){update_price($(this).parents('.item-row'));});
+
+           $(".qty").blur(function(){save_date($(this).parents('.item-row'));});
+           $(".sellgrade").blur(function(){save_date($(this).parents('.item-row'));});
+           $(".price01").blur(function(){save_date($(this).parents('.item-row'));});
+
+
+           $(".tweight").blur(function(){save_date($(this).parents('.item-row'));});
+           $(".tweight").blur(function(){save_date($(this).parents('.item-row'));});
+           $(".remarks").blur(function(){save_date($(this).parents('.item-row'));});
+           $(".buyer_code").blur(function(){save_date($(this).parents('.item-row'));});
+
+           $(".cost01").blur(function(){save_date($(this).parents('.item-row'));});
+
+
+
+        }
+
+
+        $(document).ready(function() {
+
+            bind();
+
+        });
+        </script>
+<script>
+
+</script>
+
+{% endblock js%}

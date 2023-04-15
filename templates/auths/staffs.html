@@ -1,0 +1,115 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">{{header}}</h4>
+          </div>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                <span >
+                <a href="{% url 'auths:add-user'%}" class="btn btn-primary la la-plus-rounded">Add</a>
+                </span>
+             </div>
+          </div>
+       </div>
+       <div class="iq-card-body">
+          <div class="table-responsive">
+             <table class="table mb-0 tbl">
+                <thead class="thead-light">
+                   <tr>
+                      <th scope="col">Full Name</th>
+                      <th scope="col">Phone Number</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">Action</th>
+                   </tr>
+                </thead>
+                <tbody>
+                    {% if not page_obj %}
+                  <div class="alert alert-info text-center col-md-12">There is No Staff(s) yet!</div>
+                          {% endif %}
+                    {% for staff in page_obj %}
+                   <tr>
+                      <td>{{staff.full_name}}</td>
+                      <td>{{staff.phone_number}}</td>
+                      <td>{{staff.role.role_name}} {{request.user}}</td>
+                      <td>
+                          {% if request.user.is_superuser or 'Supervisor' in request.user.role.role_name %}
+                        <a href="{% url 'auths:update_user' pk=staff.user.id %}" class="badge badge-pill badge-info">Edit</a>
+                        <div class="badge badge-pill badge-danger" data-toggle="modal" data-target="#delete{{staff.id}}">{% if staff.is_active %}Delete{% else %} Activate {% endif %}</div>
+                        <div id="delete{{staff.id}}" class="modal top" tabindex="-1">
+                           <div class="modal-dialog modal-sm ">
+                               <div class="modal-content bg-white-300">
+                                   <div class="modal-header">
+                                    <center><h5 class="modal-title text-danger" align="center">Warning</h5></center>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                   </div>
+                                   <div class="modal-body">
+                                       <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                          <i class="la la-question-circle text-danger" style="font-size:64px"></i>
+                                           <h6 class="font-weight-semibold">{% if staff.is_active %} Do you real want to delete? {% else %} Do you want to activate ? {% endif %}</h6>
+                                       </center>
+                                   </div>
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                                       <a href="{% url 'auths:delete-staff' staff_id=staff.id %}"><button type="button"
+                                               class="btn bg-success">Yes</button></a>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                          {% endif %}
+                     </td>
+                   </tr>
+                   {% endfor %}
+                </tbody>
+             </table>
+
+          </div>
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+{% block js %}
+    {% include 'common/datatable.html' %}
+  <script type="text/javascript">
+      $('.tbl').DataTable({
+      dom: 'Bfrtip',
+      ordering:false,
+      paging:false,
+buttons: [
+{
+                    text: '<i class="fa fa-plus-square-o"></i>ACTIVE',
+                    className: 'btn btn-primary btn-p',
+                     action: function (e, dt, node, config)
+                        {
+                            var url = "{% url 'auths:staff-members' %}";
+                          window.location=url;
+
+                        }
+                },
+
+         {
+                    text: '<i class="fa fa-plus-square-o"></i>INACTIVE',
+                    className: 'btn btn-danger btn-d',
+                     action: function (e, dt, node, config)
+                        {
+                            var url = "{% url 'auths:inactive-staff-members' %}";
+                          window.location=url;
+
+                        }
+                }]
+
+                });
+
+</script>
+    {% endblock %}

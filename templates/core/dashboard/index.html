@@ -1,0 +1,105 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+   <div class="col-md-6 col-lg-3">
+      <div class="iq-card iq-card-block iq-card-stretch iq-card-height bg-primary rounded">
+         <div class="iq-card-body">
+            <div class="d-flex align-items-center justify-content-between">
+               <div class="icon iq-icon-box rounded iq-bg-primary rounded shadow" data-wow-delay="0.2s">
+                  <i class="la la-id-card"></i>
+               </div>
+               <div class="iq-text">
+                  <h6 class="text-white">All Tickets</h6>
+                  <h3 class="text-white" >{{tickets}}</h3>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-6 col-lg-3">
+      <div class="iq-card iq-card-block iq-card-stretch iq-card-height  bg-success rounded">
+         <div class="iq-card-body">
+            <div class="d-flex align-items-center justify-content-between">
+               <div class="icon iq-icon-box rounded iq-bg-success rounded shadow" data-wow-delay="0.2s">
+                  <i class="la la-id-card"></i>
+               </div>
+               <div class="iq-text">
+                  <h6 class="text-white">Available Tickets</h6>
+                  <h3 class="text-white" id="available_tickets">{{available_tickets}}</h3>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-6 col-lg-3">
+      <div class="iq-card iq-card-block iq-card-stretch iq-card-height bg-danger rounded">
+         <div class="iq-card-body">
+            <div class="d-flex align-items-center justify-content-between">
+               <div class="icon iq-icon-box rounded iq-bg-danger rounded shadow" data-wow-delay="0.2s">
+                  <i class="la la-id-card"></i>
+               </div>
+               <div class="iq-text">
+                  <h6 class="text-white">Used Tickets</h6>
+                  <h3 class="text-white" id="used_tickets">{{used_tickets}}</h3>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-6 col-lg-3">
+      <div class="iq-card iq-card-block iq-card-stretch iq-card-height bg-warning rounded">
+         <div class="iq-card-body">
+            <div class="d-flex align-items-center justify-content-between">
+               <div class="icon iq-icon-box rounded iq-bg-warning rounded shadow" data-wow-delay="0.2s">
+                  <i class="la la-print"></i>
+               </div>
+               <div class="iq-text">
+                  <h6 class="text-white">Market Requests</h6>
+                  <h3 class="text-white">{{market_requests}}</h3>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+          <div class="col-lg-8">
+             <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                <div class="iq-card-header d-flex justify-content-between">
+                   <div class="iq-header-title">
+                      <h4 class="card-title">Shipment Bales </h4>
+                   </div>
+                   <div class="iq-card-header-toolbar d-flex align-items-center">
+                      
+                   </div>
+                </div>
+                <div class="iq-card-body row m-0 align-items-center pb-0">
+                   <div class="col-md-12">
+                      <div id="iq-income-chart"></div>
+                   </div>
+                </div>
+             </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+               <div class="iq-card-header d-flex justify-content-between">
+                  <div class="iq-header-title">
+                     <h4 class="card-title">Ticket Percentage</h4>
+                  </div>
+               </div>
+               <div class="iq-card-body">
+                  <div id="home-perfomer-chart"></div>
+               </div>
+            </div>
+         </div>
+       </div>
+    </div>
+ </div>
+  <div class="col-lg-4">
+     <a target="_blank" href="{% url 'shipment:sync-processing' %}" class="badge badge-secondary float-right"><i class="la la-compass"></i></a>
+  </div>
+ 
+{% endblock content %}

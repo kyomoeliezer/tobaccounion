@@ -1,0 +1,60 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-8">
+        <div class="iq-card">
+            <div class="iq-card">
+                <div class="iq-card-header d-flex justify-content-between row">
+                   <div class="iq-header-title col-12">
+                      <h4 class="card-title">{% if form %} Edit Grade {{ form.grade.grade_name}}  {% else %} Add  {{season}} Grade {% endif %} Price on {{ season}}</h4>
+                   </div>
+                   {% if message %}
+                   <div class="alert alert-danger col-12" role="alert">
+                     <div class="iq-alert-icon">
+                       <i class="ri-information-line"></i>
+                    </div>
+                    <div class="iq-alert-text alert-danger">{{message}}</div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <i class="ri-close-line text-danger"></i>
+                     </button>
+                 </div>
+                    {% endif %}
+                    {% if not grades %}
+                    <div class="alert alert-info text-center col-md-12">There is No Unpriced Grade(s) on {{season}}</div>
+                 {% endif %}
+                </div>
+                <div class="iq-card-body">
+
+                    <form  {% if form %} action="{% url 'core:edit-grade-price' price_id=form.id %}" {% else %} action="{% url 'core:add-price' year_id %}" {% endif %} method="post">
+                      {% csrf_token %}
+                    <div class="row">
+                       {% for grade in grades%}
+                         <div class="form-group col-6">
+                           <label for="text">Grade:</label>
+                           <input type="number" class="form-control" {% if form %} placeholder={{form.grade.grade_name}} disabled value={{form.grade.grade_name}} {% else %} placeholder={{grade.grade_name}} disabled value={{grade.grade_name}} {% endif %}>
+                           <input type="text"  hidden class="form-control"  {% if form %} value={{form.grade.grade_name}} {% else%}  value={{grade.grade_name}}  {% endif %} name="grade" >
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="text">Price:</label>
+                            <input type="float" class="form-control" {% if form %}  value="{{ form.price}}" {% endif %} name="price" required>
+                         </div>
+                    {% endfor %}
+                    {% if grades %}
+                         <div class="col-12">
+                            <button type="submit" class="btn btn-primary float-right" >{% if form %} Save  {% else %} Create {% endif %}</button>
+                         </div>
+                         {% endif %}
+                    </div>
+                   </form>
+                </div>
+             </div>
+        </div>
+       </div>
+       </div>
+      </dev>
+
+{% endblock %}

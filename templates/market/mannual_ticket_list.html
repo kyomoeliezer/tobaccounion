@@ -1,0 +1,172 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load tags %}
+{% load humanize %}
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">{{market_request}}`s Market Bales</h4>
+              {{market_request.print_request_status}}
+          </div>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                <span >
+                <a href="{% url 'market:add-market-ticket-request'%}" class="btn btn-primary la la-plus-rounded">Add</a>
+               
+             </div>
+          </div>
+       </div>
+        <div class="col-md-12 row"><!--ROW -->
+        <!--FIRST BOX-->
+            <div class="col-md-4">
+                <div class="col-md-12">
+               
+                </div>
+                <div class="col-md-12">
+                <div class="iq-card-body">
+                    <div class="iq-header-title">
+                             <h4 class="card-title">Data Capturing[{{wh}}]</h4>
+                          </div>
+
+
+                                    <div class="table-responsive">
+
+                                          <table class="table ">
+                                              {% for cap in datacaptured %}
+                                            <tr>
+                                                <td>TICKETS</td><td>{{cap.count}} -  {{cap.countkg|floatformat:2|intcomma}}</td>
+                                            </tr>
+                                              <tr>
+                                                  <td>MSD </td><td>{{cap.msd}} -  {{cap.msdkg|floatformat:2|intcomma}}</td>
+                                            </tr>
+                                              <tr>
+                                                  <td>ISAKA</td><td>{{cap.isaka}} - {{cap.isakakg|floatformat:2|intcomma}}</td>
+                                            </tr>
+                                               <tr>
+                                                   <td>NYUZI</td><td>{{cap.nyuzi}} - {{cap.nyuzikg|floatformat:2|intcomma}}</td>
+                                            </tr>
+                                              
+                                              {% endfor %}
+                                          </table>
+
+                                     </div>
+                </div>
+                </div>
+            </div>
+        <!--END OF FIRST BOX-->
+        <!--BODY BIG RIGHT-->
+            <div class="col-md-8">
+               <div class="iq-card-body">
+
+              
+
+
+                  <div class="table-responsive">
+                     <table id="items" class="table tbl" style="width: 100%; font-size:13px;">
+                                <thead>
+                                  <tr>
+                                      <th style="text-align:left;"><span style="font-size:17px;font-family: Arial, Helvetica, sans-serif;">Number</span></th>
+                                      <th><span style="font-size:17px;text-align:center;"> PCN</span></th>
+                                      <th><span style="font-size:17px;text-align:center;"> Purchase Grade</span></th>
+                                      <th><span style="font-size:17px;text-align:center;"> Verified Grade</span></th>
+                                        <th><span style="font-size:17px;text-align:center;"> Inhouse Grade</span></th>
+
+                                      <th><span style="font-size:17px;text-align:center;">Purchasing <br/> WT</span></th>
+                                     
+                                      <th><span style="font-size:17px;text-align:center;">Grade Price</span></th>
+                                      <th><span style="font-size:17px;text-align:center;">Tobacco<br/>Value</span></th>
+                    
+                                     
+                    
+                                  </tr>
+                                  </thead>
+                         <tbody>
+                        {% for line in bales %}
+                                 <tr>
+
+                                       <td style="text-align:center;"><span style="font-size:17px;">{{line.ticket.ticket_number}} </span>  </td>
+                                     <td style="text-align:center;"><span style="font-size:17px;">{{line.pcn.pcn_no}} </span>  </td>
+                                      <td style="text-align:center;"><span style="font-size:17px; text-align:center;">{% if line.grade %}{{line.grade.grade_name }}{% endif %}  </span> </td>
+                                      <td style="text-align:center;"><span style="font-size:17px; text-align:center;">{% if line.verified_grade%}{{line.verified_grade.grade_name }}{% endif %}  </span> </td>
+                                       <td style="text-align:center;"><span style="font-size:17px; text-align:center;">{% if line.in_house_grade %}{{line.in_house_grade.grade }}{% endif %}  </span> </td>
+
+                                    
+                                     <td style="text-align:center;"><span style="font-size:17px;text-align:center;">{% if line.primary_weight %}{{line.primary_weight|floatformat:2 }}{% endif %}  </span> </td>
+                                      
+                                      <td style="text-align:center;"><span style="font-size:17px;">{% if line.price %}${{line.price}} {% else %} {% endif %} </span> </td>
+                                      <td style="text-align:center;"><span style="font-size:17px;text-align:center;">{% if line.value %}{{line.value|floatformat:3|intcomma }}{% endif %}</span>    </td>
+
+                 
+
+
+
+                                  </tr>
+
+                                  {% endfor %}
+
+                                </tbody>
+
+                                </table>
+
+                  </div>
+            </div>
+        <!--BODY 2-->
+            </div><!--ROW /-->
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+{% block js %}
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tbl').DataTable( {
+         dom: 'Bfrtip',
+        ordering:false,
+        paging:false,
+        buttons:[
+         'excelHtml5',
+            'csv',
+              {
+                    text: 'NYUZI',
+                    className: 'orange, btn btn-primary',
+                     action: function (e, dt, node, config)
+                        {
+
+                          window.location="{% url 'market:market-ticket-requests' %}?wh=NYUZI"
+
+                        }
+                },
+             {
+                    text: 'MSD',
+                    className: 'orange, btn btn-secondary',
+                     action: function (e, dt, node, config)
+                        {
+
+                          window.location="{% url 'market:market-ticket-requests-done' %}?wh=MSD"
+
+                        }
+                }
+                 {
+                    text: 'ISAKA',
+                    className: 'orange, btn btn-secondary',
+                     action: function (e, dt, node, config)
+                        {
+
+                          window.location="{% url 'market:market-ticket-requests-done' %}?wh=ISAKA"
+
+                        }
+                }
+        ]
+
+    } );
+    });
+</script>
+{% endblock %}

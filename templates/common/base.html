@@ -1,0 +1,172 @@
+
+<!doctype html>
+<html lang="en">
+    {% load static %}
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>{% if header %} {{header|upper}} {% else %} CAPTURE {% endif %}</title>
+      <!-- Favicon -->
+      <link rel="shortcut icon" href="{% static 'assets/select2/select2-bootstrap.less' %}" />
+      <link rel="shortcut icon" href="{% static 'assets/select2/select2-bootstrap.scss' %}" />
+      <!-- Bootstrap CSS -->
+
+      <link rel="stylesheet" href="{% static 'assets/backend/css/bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/backend/css/bootstrap.min.css' %}">
+      <!-- Typography CSS -->
+      <link rel="stylesheet" href="{% static 'assets/backend/css/typography.css' %}">
+      <!-- Style CSS -->
+      <link rel="stylesheet" href="{% static 'assets/backend/css/style.css' %}">
+      <!-- Responsive CSS -->
+      <link rel="stylesheet" href="{% static 'assets/backend/css/responsive.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/backend/css/mystyles.css' %}">
+
+      <link rel="stylesheet" href="{% static 'assets/backend/css/flatpickr.min.css' %}">
+       <style>
+         .select2-selection__rendered {
+             line-height: 35px !important;
+         }
+         .select2-container .select2-selection--single {
+             height: 35px !important;
+         }
+         .select2-selection__arrow {
+             height: 35px !important;
+         }
+         .select2-selection { overflow: hidden; }
+         .select2-selection__rendered { white-space: normal; word-break: break-all; }
+         .errors{
+         color:red;
+         }
+         .inner{
+         color:red;
+         }
+         </style>
+
+   </head>
+   <body>
+      <!-- loader Start -->
+      <div id="loading">
+         <div id="loading-center">
+         </div>
+      </div>
+      <!-- loader END -->
+      <!-- Wrapper Start -->
+      <div class="wrapper">
+         <!-- Sidebar  -->
+         <div class="iq-sidebar">
+            <div class="iq-navbar-logo d-flex justify-content-between">
+               <a href="/" class="header-logo">
+                <span>
+               <img src="{% static 'assets/vodsel.png' %}" class="img-fluid rounded" alt=""></span>
+               <!-- <span>Tobacco Management System</span>. -->
+               </a>
+            </div>
+            {% include "common/sidebar.html" %}
+         </div>
+         <!-- TOP Nav Bar -->
+         {% include "common/topbar.html" %}
+         <!-- TOP Nav Bar END -->
+
+         <!-- Page Content  -->
+          
+         {% block content %}
+        
+
+         {% endblock content %}
+      </div>
+      <!-- Wrapper END -->
+      <!-- Footer -->
+      {% comment %} <footer class="iq-footer">
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-lg-6">
+                  <ul class="list-inline mb-0">
+                     <li class="list-inline-item"><a href="privacy-policy.html">Privacy Policy</a></li>
+                     <li class="list-inline-item"><a href="terms-of-service.html">Terms of Use</a></li>
+                  </ul>
+               </div>
+               <div class="col-lg-6 text-right">
+                  Copyright {% now "Y" %} <a href="#">Mifumo</a> All Rights Reserved.
+               </div>
+            </div>
+         </div>
+      </footer> {% endcomment %}
+      <!-- Footer END -->
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="{% static 'assets/backend/js/jquery.min.js' %}"></script>
+      <script src="{% static 'assets/backend/js/popper.min.js' %}"></script>
+      <script src="{% static 'assets/backend/js/bootstrap.min.js' %}"></script>
+      <!-- Appear JavaScript -->
+      <script src="{% static 'assets/backend/js/jquery.appear.js' %}"></script>
+      <!-- Countdown JavaScript -->
+      <script src="{% static 'assets/backend/js/countdown.min.js' %}"></script>
+      <!-- Counterup JavaScript -->
+      <script src="{% static 'assets/backend/js/waypoints.min.js' %}"></script>
+      <script src="{% static 'assets/backend/js/jquery.counterup.min.js' %}"></script>
+      <!-- Wow JavaScript -->
+      <script src="{% static 'assets/backend/js/wow.min.js' %}"></script>
+      <!-- Apexcharts JavaScript -->
+      <script src="{% static 'assets/backend/js/apexcharts.js' %}"></script>
+      <!-- Slick JavaScript -->
+      <script src="{% static 'assets/backend/js/slick.min.js' %}"></script>
+      <!-- Select2 JavaScript -->
+      <script src="{% static 'assets/backend/js/select2.min.js' %}"></script>
+      <!-- Owl Carousel JavaScript -->
+      <script src="{% static 'assets/backend/js/owl.carousel.min.js' %}"></script>
+      <!-- Magnific Popup JavaScript -->
+      <script src="{% static 'assets/backend/js/jquery.magnific-popup.min.js' %}"></script>
+      <!-- Smooth Scrollbar JavaScript -->
+      <script src="{% static 'assets/backend/js/smooth-scrollbar.js' %}"></script>
+      <!-- lottie JavaScript -->
+      <script src="{% static 'assets/backend/js/lottie.js' %}"></script>
+      <!-- am core JavaScript -->
+      <script src="{% static 'assets/backend/js/core.js' %}"></script>
+      <!-- am charts JavaScript -->
+      <script src="{% static 'assets/backend/js/charts.js' %}"></script>
+      <!-- am animated JavaScript -->
+      <script src="{% static 'assets/backend/js/animated.js' %}"></script>
+      <!-- am kelly JavaScript -->
+      <script src="{% static 'assets/backend/js/kelly.js' %}"></script>
+      <!-- am maps JavaScript -->
+      <script src="{% static 'assets/backend/js/maps.js' %}"></script>
+      <!-- am worldLow JavaScript -->
+      <script src="{% static 'assets/backend/js/worldLow.js' %}"></script>
+      <!-- Raphael-min JavaScript -->
+      <script src="{% static 'assets/backend/js/raphael-min.js' %}"></script>
+      <!-- Morris JavaScript -->
+      <script src="{% static 'assets/backend/js/morris.js' %}"></script>
+      <!-- Morris min JavaScript -->
+      <script src="{% static 'assets/backend/js/morris.min.js' %}"></script>
+      <!-- Flatpicker Js -->
+      <script src="{% static 'assets/backend/js/flatpickr.js' %}"></script>
+      <!-- Style Customizer -->
+      <script src="{% static 'assets/backend/js/style-customizer.js' %}"></script>
+      <!-- Chart Custom JavaScript -->
+      <script src="{% static 'assets/backend/js/chart-custom.js' %}"></script>
+      <!-- Custom JavaScript -->
+      <script src="{% static 'assets/backend/js/custom.js' %}"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+
+      <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+      <script src="{% static 'moneyformat/jquery.maskMoney.js' %}"></script>
+    <script>
+      //$('select').select2();
+      $('.select2').select2();
+
+    </script>
+        <script type="text/javascript">$('.money').maskMoney();</script>
+    <script type="text/javascript">
+
+$('form').submit(function(){
+    modal_please_wait();
+  
+ }); 
+</script>
+      {% block js %}
+   {% endblock %}
+       {% include "lib/notifyME.html" %}
+   {% include 'common/modals.html' %}
+   </body>
+</html>

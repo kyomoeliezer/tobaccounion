@@ -1,0 +1,131 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">List of Farmers</h4>
+          </div>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                <span >
+                <a href="{% url 'association:add-farmer'%}" class="btn btn-primary la la-plus-rounded">Add</a>
+                </span>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton5">
+                   <a class="dropdown-item" href="#"><i class="ri-eye-fill mr-2"></i>View</a>
+                   <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-fill mr-2"></i>Delete</a>
+                   <a class="dropdown-item" href="#"><i class="ri-pencil-fill mr-2"></i>Edit</a>
+                   <a class="dropdown-item" href="#"><i class="ri-printer-fill mr-2"></i>Print</a>
+                   <a class="dropdown-item" href="#"><i class="ri-file-download-fill mr-2"></i>Download</a>
+                </div>
+             </div>
+          </div>
+       </div>
+       <div class="iq-card-body">
+          <div class="table-responsive">
+             <table class="table mb-0 tbl">
+                <thead class="thead-light">
+                   <tr>
+                        <th scope="col">Farmer Code</th>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Middle Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Society</th>
+
+                      <th scope="col">Region</th>
+                      <th scope="col">Action</th>
+                   </tr>
+                </thead>
+                <tbody>
+
+                    {% for farmer in page_obj%}
+                   <tr>
+                       <td>{{farmer.farmer_code}}</td>
+                      <td>{{farmer.first_name}}</td>
+                      <td>{{farmer.middle_name}}</td>
+                      <td>{{farmer.last_name}}</td>
+                      <td>{{farmer.phone_number}}</td>
+                      <td>{{farmer.society.name}}</td>
+
+                      <td>{{farmer.region.region_name}}</td>
+                      <td>
+                        <a href="{% url 'association:edit-farmer' farmer_id=farmer.id %}" class="badge badge-pill badge-info">Edit</a>
+                        <div class="badge badge-pill badge-danger" data-toggle="modal" data-target="#delete{{farmer.id}}">{% if farmer.is_active %}Delete{% else %} Activate {% endif %}</div>
+                        <div id="delete{{farmer.id}}" class="modal top" tabindex="-1">
+                           <div class="modal-dialog modal-sm ">
+                               <div class="modal-content bg-white-300">
+                                   <div class="modal-header">
+                                    <center><h5 class="modal-title text-danger" align="center">Warning</h5></center>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                   </div>
+                                   <div class="modal-body">
+                                       <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                          <i class="la la-question-circle text-danger" style="font-size:64px"></i>
+                                           <h6 class="font-weight-semibold">{% if farmer.is_active %} Do you real want to delete? {% else %} Do you want to activate ? {% endif %}</h6>
+                                       </center>
+                                   </div>
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                                       <a href="{% url 'association:delete-farmer' farmer_id=farmer.id %}"><button type="button"
+                                               class="btn bg-success">Yes</button></a>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                     </td>
+                   </tr>
+                   {% endfor %}
+                </tbody>
+             </table>
+
+          </div>
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+    {% block js %}
+{% load static %}
+{% include 'common/datatable.html' %}
+   <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tbl').DataTable( {
+        destroy: true,
+        paging:false,
+        ordering:false,
+        dom: 'Bfrtip',
+
+        buttons: [
+         'excel',
+         {   text: '<i class="fa fa-plus-square-o"></i>ACTIVE',
+                    className: 'btn btn-primary btn-p',
+                     action: function (e, dt, node, config)
+                        {
+                            var url = "{% url 'association:farmers' %}";
+                          window.location=url;
+
+                        }
+                },
+
+         { text: '<i class="fa fa-plus-square-o"></i>INACTIVE',
+                    className: 'btn btn-danger btn-d',
+                     action: function (e, dt, node, config)
+                        {
+                            var url = "{% url 'association:inactive_farmers' %}";
+                          window.location=url;
+
+                        }
+                }
+        ]
+    } );
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,281 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>PDF</title>
+    <style type="text/css">
+    {% load tags %}
+{% load humanize %}
+        @page {
+
+            size: 24.13cm 29.94cm;
+            margin: 1.1cm;
+
+        }
+       .header th {
+            vertical-align: top;
+            horizontal-align:left;
+            border-top: none;
+             border-left:none;
+            border-right: none;
+
+        }
+         .header {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 6px;
+            background-color: #fff;
+        }
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 2px;
+            background-color: #fff;
+        }
+        .table th,
+
+        .table td {
+            padding-top: 3px;
+            vertical-align: top;
+            border-top: 1px solid #000;
+             border-left: 1px solid #000;
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding-left:3px;
+        }
+        .table thead th {
+            vertical-align: bottom;
+            border: 1px solid #000;
+            text-align:center;
+            /*background-color: #f2f4f7 !important;*/
+
+        }
+       .table td, .table th{
+            /*border-top:none;
+            border-left:none;
+            border-right:none;
+            border-bottom:1px solid #000;*/
+            text-align:center;
+
+
+        }
+        /*.table tbody + tbody {
+            border-top: 2px solid #000;
+        }*/
+        .table .table {
+            background-color: #fff;
+        }
+        .list-group {
+            display: block;
+            width: 100%;
+            list-style: none;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .list-group p {
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            list-style: none;
+            font-size: 1.1em;
+        }
+        .line{
+        color:blue;
+        }
+
+        .header.left {
+            text-align:left;
+           }
+       .header .right {
+        text-align:right;
+        }
+        .font17{font-size:17px;}
+        .font15 {font-size:15px;}
+        .font14 {font-size:14px;}
+        .header{
+        width:100%;
+        text-align:left;
+        }
+          .orange{
+            color:orange;
+          }
+          .size9{font-size:9px;}
+           .size10{font-size:10px;}
+           .size11{font-size:11px;}
+           .size12{font-size:12px;text-align: justify;}
+
+
+
+
+
+
+ html {
+  font-family:arial;
+  font-size: 12px;
+}
+/*
+td {
+  border: 1px solid #726E6D;
+
+}
+*/
+.maoni{
+  font-size:14px;
+  font-weight:200px;
+
+}
+
+thead{
+  font-weight:normal;
+
+  background: #e9e8e8;
+  color:black;
+}
+thead.center, tbody.center{
+  text-align:center;
+
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.footer {
+  text-align:right;
+  font-weight:bold;
+}
+.noborder{
+  border:none;
+}
+
+tbody >tr:nth-child(odd) {
+  background: #D1D0CE;
+}
+.font9{
+  font-size:10px;
+}
+.noleft{
+border-left:none;
+}
+.table .noright{
+border-right:none;
+}
+
+
+
+    </style>
+    </head>
+<body>
+ {% load static %}
+
+                       {% include 'pdf/header_logo.html' %}
+        <table class="header font15" style="width:100%;" >
+                    <tr>
+                        <th  style=" width:100%; text-align:center;" >
+                           <h5 style="font-size:23px;">MARKET DECLARATION</i></h5>
+                        </th>
+
+                    </tr>
+        </table>
+
+        <table class="header font15" style="width: 100%;" >
+                    <tr>
+                        <td  style="text-align:left; border:none; width:15%;" ><span style="font-size:17px;">MARKET:</span></td>
+                        <td style="text-align:left;  border:none;width:35%;"><span style="font-size:17px;"><b>{{req.market|upper }}</b></span></td>
+                        <td style="width:20%; border:none;"></td>
+                        <td style="text-align:left; border:none;width:20%;"><span style="font-size:17px;">P.SOCIETY:</span></th>
+                        <td style="text-align:left; border:none;width:20%;"><span style="font-size:17px;"><b>{{req.society.name|upper}}</b></span></td>
+
+                    </tr>
+                     <tr>
+                        <td  style="text-align:left; border:none;width:15%;" ><span style="font-size:17px;">SALE DATE:</span></td>
+                         <td style="text-align:left; border:none;width:35%;"><span style="font-size:17px;"><b>{{req.sales_date|date:'d/m/Y'}}</b></span></td>
+                        <td style="width:20%; border:none;"></td>
+                        <td style="text-align:left; border:none;"><span style="font-size:17px;">SALE NO</span></td>
+                         <td style="text-align:left; border:none;"><span style="font-size:17px;"><b>{{req.sales_number}}</b></span></td>
+
+
+
+
+                </table>
+
+
+                                  <table class="table table-bordered" style="width:100%;">
+                                       <thead>
+                                        <tr>
+                                         <th  style="border: 1px solid #000 !important;">  </th>
+                                         <th colspan="2" style="text-align:center; border: 1px solid #000; padding:2px;"><span style="font-size:17px;">PREPARED</span></th>
+                                         <th colspan="2" style="text-align:center; border: 1px solid #000;padding:2px;"><span style="font-size:17px;">REJECTED</span></th>
+                                            <th colspan="2" style="text-align:center;border: 1px solid #000;"><span style="font-size:17px;">WITH DRAWN</span></th>
+                                         <th colspan="2" style="text-align:center;border: 1px solid #000;"><span style="font-size:17px;"><span style="font-size:17px;">BOUGHT</span></th>
+                                         </tr>
+                                       <tr>
+
+                                           <th style="border: 1px solid #00;padding:2px;"><span style="font-size:17px;">PCN</span></th>
+                                           <th style="text-align:center;border: 1px solid #000;"><span style="font-size:17px;">BALES</span></th>
+                                           <th style="text-align:center;border: 1px solid #000;"><span style="font-size:17px;">KG</span></th>
+                                           <th style="text-align:center;border: 1px solid #000;"><span style="font-size:17px;">BALES</span></th>
+                                           <th style="text-align:center;border: 1px solid #000;"><span style="font-size:17px;">KG</span></th>
+                                            <th style="text-align:center;border: 1px solid #000;"><span style="font-size:17px;">BALES</span></th>
+                                           <th style="text-align:center;border: 1px solid #000;"><span style="font-size:17px;">KG</span></th>
+                                           <th style="text-align:center;border: 1px solid #000;"><span style="font-size:17px;">BALES</span></th>
+                                           <th style="text-align:center;border: 1px solid #000;"><span style="font-size:17px;">KG</span></th>
+                                       </tr>
+
+
+                                       </thead>
+                                      <tbody>
+
+                                   {% for li in pcns %}
+                                       <tr>
+
+                                         <td style="border: 1px solid #000 !important;"><span style="font-size:17px;padding:2px;">{{li.pcnn}}</span> </td>
+                                           <td style="text-align:center;padding:2px;"><span style="font-size:17px;">{% if li.balesp %}{{li.balesp}} {% else %}  {% endif %}</span> </td>
+                                           <td style="text-align:center;"><span style="font-size:17px;">{% if li.kgp %}{{li.kgp|floatformat:2|intcomma}}  {% else %}  {% endif %}  </span></td>
+                                           <td style="text-align:center;"><span style="font-size:17px;">{% if li.balesr %}{{li.balesr}} {% else %}  {% endif %} </span></td>
+                                           <td style="text-align:center;"><span style="font-size:17px;">{% if li.kgr %}{{li.kgr|floatformat:2|intcomma}} {% else %}  {% endif %} </span> </td>
+                                           <td style="text-align:center;"><span style="font-size:17px;">{% if li.baleswthdrawn %}{{li.baleswthdrawn}} {% else %}  {% endif %}</span> </td>
+                                           <td style="text-align:center;"><span style="font-size:17px;">{% if li.kgwthdrawn %}{{li.kgwthdrawn|floatformat:2|intcomma}} {% else %}  {% endif %} </span> </td>
+                                           <td style="text-align:center;"><span style="font-size:17px;">{% if li.balesb %}{{li.balesb}} {% else %}  {% endif %} </span></td>
+                                           <td style="text-align:center;padding:2px;"><span style="font-size:17px;">{% if li.kgb %}{{li.kgb|floatformat:2|intcomma}} {% else %}  {% endif %}</span></td>
+                                       </tr>
+                                    {% endfor %}
+                                       {% for li in pcns_total %}
+                                       <tr>
+
+                                         <td ><span style="font-size:17px;">TOTAL</span></td>
+                                           <td  style="text-align:center; padding:4px;"><span style="font-size:17px;">{% if li.balesp %}{{li.balesp}} {% else %} 0 {% endif %} </span></td>
+                                           <td style="text-align:center;padding:4px;"><span style="font-size:17px;">{% if li.kgp %}{{li.kgp|floatformat:2|intcomma}}  {% else %} 0 {% endif %}  </span></td>
+                                           <td  style="text-align:center;padding:4px;"><span style="font-size:17px;">{% if li.balesr %}{{li.balesr}} {% else %} 0 {% endif %}</span> </td>
+                                           <td style="text-align:center;padding:4px;"><span style="font-size:17px;">{% if li.kgr %}{{li.kgr|floatformat:2|intcomma}} {% else %} 0 {% endif %} </span> </td>
+                                           <td  style="text-align:center;padding:4px;"><span style="font-size:17px;">{% if li.baleswthdrawn %}{{li.baleswthdrawn}} {% else %} 0 {% endif %}</span> </td>
+                                           <td style="text-align:center;padding:4px;"><span style="font-size:17px;">{% if li.kgwthdrawn %}{{li.kgwthdrawn|floatformat:2|intcomma}} {% else %} 0 {% endif %} </span> </td>
+                                           <td  style="text-align:center;padding:4px;"><span style="font-size:17px;">{% if li.balesb %}{{li.balesb}} {% else %} 0 {% endif %} </span></td>
+                                           <td style="text-align:center;padding:4px;"><span style="font-size:17px;">{% if li.kgb %}{{li.kgb|floatformat:2|intcomma}} {% else %} 0 {% endif %}</span></td>
+                                       </tr>
+                                    {% endfor %}
+
+                                            </tbody>
+                                  </table>
+
+           <br/>
+
+                   <table class="header" style="font-size:11px; width:100%;"><tr><th style="text-align:left;"></th><th style="text-align:left;">NAME</th><th style="text-align:left;">SIGNATURE<br/></th> </tr>
+                                   <tr><th style="text-align:left;"><span style="font-size:17px;">Mobile Clerk</span></th><th style="text-align:left;">...........................................................</th><th style="text-align:left;">..............................................<br/></th></tr>
+                                   <tr><th style="text-align:left;"><span style="font-size:17px;">Buyer Name</span></th><th style="text-align:left;">...........................................................</th><th style="text-align:left;">..............................................<br/></th></tr>
+                                   <tr><th style="text-align:left;"><span style="font-size:17px;">TTB Classfier</span></th><th style="text-align:left;">...........................................................</th><th style="text-align:left;">..............................................<br/></th></tr>
+
+                               </table>
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+

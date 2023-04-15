@@ -1,0 +1,133 @@
+
+<!doctype html>
+<html lang="en">
+    {% load static %}
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Voedsel</title>
+      <!-- Favicon -->
+      <link rel="shortcut icon" href="{% static 'assets/vodsel.png' %}" />
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="{% static 'assets/backend/css/bootstrap.min.css' %}">
+      <!-- Typography CSS -->
+      <link rel="stylesheet" href="{% static 'assets/backend/css/typography.css' %}">
+      <!-- Style CSS -->
+      <link rel="stylesheet" href="{% static 'assets/backend/css/style.css' %}">
+      <!-- Responsive CSS -->
+      <link rel="stylesheet" href="{% static 'assets/backend/css/responsive.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/backend/css/mystyles.css' %}">
+
+      <link rel="stylesheet" href="{% static 'assets/backend/css/flatpickr.min.css' %}">
+
+   </head>
+   <body>
+      <!-- loader Start -->
+      <div id="loading">
+         <div id="loading-center">
+         </div>
+      </div>
+      <!-- loader END -->
+        <!-- Sign in Start -->
+        <section class="sign-in-page">
+          <div id="container-inside">
+            <div class="container p-0">
+                <div class="row no-gutters justify-content-center height-self-center">
+                  <div class="col-sm-4 center align-self-center bg-white rounded">
+                    <div class="row m-0">
+                      <div class="col-md-12 bg-white sign-in-page-data">
+                          <div class="sign-in-from">
+                           <center> <img src="static/assets/vodsel.png" float-center style="width: 40%;"></center>
+                           {% if message %}
+                           <div class="alert alert-danger" role="alert">
+                              <div class="iq-alert-icon">
+                                <i class="ri-information-line"></i>
+                             </div>
+                             <div class="iq-alert-text">{{message}}</div>
+                          </div>
+                              {% endif %}
+                              <form action="{% url 'auths:login'%}" method="post" class="mt-4">
+                                {% csrf_token %}
+                                  <div class="form-group">
+                                      <label for="exampleInputEmail1">Username</label>
+                                      <input type="text" class="form-control mb-0" id="exampleInputEmail1" name="username" placeholder="Enter Username">
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="exampleInputPassword1">Password</label>
+                      
+                                      <input type="password" class="form-control mb-0" id="exampleInputPassword1" name="password" placeholder="Enter Password">
+                                      <a href="#" class="float-right">Forgot password?</a>
+                                  </div>
+                                  <div class="d-inline-block w-100">
+                                      <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
+                                          <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                          <label class="custom-control-label" for="customCheck1">Remember Me</label>
+                                      </div>
+                                  </div>
+                                  <div class="sign-info text-center">
+                                      <button type="submit" class="btn btn-primary d-block w-100 mb-2">Sign in</button>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </section>
+      <script src="{% static 'assets/backend/js/jquery.min.js' %}"></script>
+      <script src="{% static 'assets/backend/js/popper.min.js' %}"></script>
+      <script src="{% static 'assets/backend/js/bootstrap.min.js' %}"></script>
+      <!-- Appear JavaScript -->
+      <script src="{% static 'assets/backend/js/jquery.appear.js' %}"></script>
+      <!-- Countdown JavaScript -->
+      <script src="{% static 'assets/backend/js/countdown.min.js' %}"></script>
+      <!-- Counterup JavaScript -->
+      <script src="{% static 'assets/backend/js/waypoints.min.js' %}"></script>
+      <script src="{% static 'assets/backend/js/jquery.counterup.min.js' %}"></script>
+      <!-- Wow JavaScript -->
+      <script src="{% static 'assets/backend/js/wow.min.js' %}"></script>
+      <!-- Apexcharts JavaScript -->
+      <script src="{% static 'assets/backend/js/apexcharts.js' %}"></script>
+      <!-- Slick JavaScript -->
+      <script src="{% static 'assets/backend/js/slick.min.js' %}"></script>
+      <!-- Select2 JavaScript -->
+      <script src="{% static 'assets/backend/js/select2.min.js' %}"></script>
+      <!-- Owl Carousel JavaScript -->
+      <script src="{% static 'assets/backend/js/owl.carousel.min.js' %}"></script>
+      <!-- Magnific Popup JavaScript -->
+      <script src="{% static 'assets/backend/js/jquery.magnific-popup.min.js' %}"></script>
+      <!-- Smooth Scrollbar JavaScript -->
+      <script src="{% static 'assets/backend/js/smooth-scrollbar.js' %}"></script>
+      <!-- lottie JavaScript -->
+      <script src="{% static 'assets/backend/js/lottie.js' %}"></script>
+      <!-- am core JavaScript -->
+      <script src="{% static 'assets/backend/js/core.js' %}"></script>
+      <!-- am charts JavaScript -->
+      <script src="{% static 'assets/backend/js/charts.js' %}"></script>
+      <!-- am animated JavaScript -->
+      <script src="{% static 'assets/backend/js/animated.js' %}"></script>
+      <!-- am kelly JavaScript -->
+      <script src="{% static 'assets/backend/js/kelly.js' %}"></script>
+      <!-- am maps JavaScript -->
+      <script src="{% static 'assets/backend/js/maps.js' %}"></script>
+      <!-- am worldLow JavaScript -->
+      <script src="{% static 'assets/backend/js/worldLow.js' %}"></script>
+      <!-- Raphael-min JavaScript -->
+      <script src="{% static 'assets/backend/js/raphael-min.js' %}"></script>
+      <!-- Morris JavaScript -->
+      <script src="{% static 'assets/backend/js/morris.js' %}"></script>
+      <!-- Morris min JavaScript -->
+      <script src="{% static 'assets/backend/js/morris.min.js' %}"></script>
+      <!-- Flatpicker Js -->
+      <script src="{% static 'assets/backend/js/flatpickr.js' %}"></script>
+      <!-- Style Customizer -->
+      <script src="{% static 'assets/backend/js/style-customizer.js' %}"></script>
+      <!-- Chart Custom JavaScript -->
+      <script src="{% static 'assets/backend/js/chart-custom.js' %}"></script>
+      <!-- Custom JavaScript -->
+      <script src="{% static 'assets/backend/js/custom.js' %}"></script>
+   </body>
+</html>

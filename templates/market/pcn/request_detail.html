@@ -1,0 +1,164 @@
+
+{% extends 'master/base.html' %}
+ {% load staticfiles %}
+   {% block dtablecss %}
+    <link href="{% static 'datatables/responsive.dataTables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+    <link href="{% static 'datatables/table-pages.css' %}" rel="stylesheet">
+   {% endblock %}
+{% block content_block %}
+{% load crispy_forms_tags %}
+{% load tags %}
+{% load roles %}
+{% is_supervisor request.user as su %}
+{% is_admin request.user as adm %}
+{% load tags %}
+
+           <div class="page-header">
+			  <h3 class="page-title">{{header|upper}}</h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">MARKET:<B>{{list.market.name|upper}}</B></a></li>
+                  <li class="breadcrumb-item active" aria-current="page"> {{list.primary_society.name|upper}} </li>
+                </ol>
+              </nav>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{% url 'request_pdf' list.id %}?type=1" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i>DATA </a></a>
+                    <a href="{% url 'request_pdf' list.id %}" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i>EMPTY </a></a>
+                    <span class="badge badge-primary float-right">MARKET:<B>{{list.market.name|upper}}/{{list.primary_society.name|upper}}/SALE:{{list.sale_no}}</B></span>
+                </div>
+              <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                      <h5>Detail</h5>
+                      <div class="row">
+
+                          <div class="col-md-6">
+                              {% if not list.is_completed %}
+                              {% if su or adm %} <a href="{% url 'release_ticket' list.id %}" class="btn btn-danger">RELEASE TICKETS</a> {% endif %}
+                               {% endif %}
+                          </div>
+                          <div class="col-md-6">
+                              {% if su or rsu %}
+                      {% if not list.is_completed %} <a href="javascript:;" onclick="modal_completed('{% url 'request_completed' list.id %}');" class="btn btn-info">MARK COMPLETED</a>{%else %} <a href="javascript:;" onclick="modal_uncompleted('{% url 'request_uncompleted' list.id %}');" class="btn btn-danger">MARK UN COMPLETED</a>{% endif %}
+                        {% endif %}
+                          </div>
+                      </div>
+
+                            <div class="table-responsive">
+
+                                  <table class="table">
+                                    <tr>
+                                        <td>Market</td><td>{{list.market.name}}</td>
+                                    </tr>
+                                      <tr>
+                                        <td>P/Society</td><td>{{list.primary_society.name}}</td>
+                                    </tr>
+                                      <tr>
+                                        <td>Sale No</td><td>{{list.sale_no}}</td>
+                                    </tr>
+                                       <tr>
+                                        <td>Sale Date</td><td>{{list.sale_date}}</td>
+                                    </tr>
+                                       <tr>
+                                           <td colspan="2"><b>{{list.description}}</b></td>
+                                    </tr>
+                                  </table>
+
+                             </div>
+                </div>
+              </div>
+              </div>
+                              <div class="col-md-8 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                      <h5>PCN(s)</h5>
+
+                            <div class="table-responsive">
+
+                                    <table class="table tbl">
+                                            <thead>
+                                            <tr>
+                                                <th>SN</th>
+                                                <th>PCN</th>
+                                                 <th>NO TICKETS</th>
+                                                 <th style="text-align:center;">CHECKED</th>
+                                                <th style="text-align:center;">UNCHECKED</th>
+                                                <th style="text-align:center;">HAS DATA</th>
+                                                <th style="text-align:center;">ACTION</th>
+                                                <th style="text-align:center;">PDF(EMPTY/DATA)</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {% for li in tickets %}
+                                              {%  is_pcn_verified li.pcn_nid as verified %}
+                                             {% is_pcn_hasdata li.pcn_nid as hasdata %}
+                                            <tr>
+                                                <td>{{forloop.counter}}</td>
+                                                <td>{% if verified %} <span class="text-primary">{% else %} <span class="">{% endif %}<b>{{li.pcnn}}</b></span></td>
+                                                <td>{{li.count}}</td>
+                                                <td style="text-align:center;">{% if li.checked %}{{li.checked}}{%else %} 0 {% endif %}</td>
+                                                <td style="text-align:center;">{% if li.unchecked %}{{li.unchecked}}{% else %} 0{%endif %}</td>
+                                                <td style="text-align:center;">{% if li.has_data %}{{li.has_data}} {% else %} 0{% endif %}</td>
+                                                <td>
+
+                                               {% if not verified %}
+
+                                               {% if hasdata %}
+                                               <a href="{% url 'pcn_detail' li.pcn_nid %}" ><i class="mdi mdi-equal-box"></i>update</a>
+                                               {% else %}
+                                               <a href="{% url 'pcn_detail' li.pcn_nid %}" ><i class="mdi mdi-equal-box"></i>detail</a>
+                                               {% endif %}
+
+                                               {% else %}
+                                               <a href="{% url 'pcn_detail' li.pcn_nid %}" ><i class="mdi mdi-equal-box"></i>detail</a>
+                                               {% endif %}
+
+
+                                               </td>
+                                                <td> <a href="{% url 'empty_pcn_pdf' li.pcn_nid %}" ><i class="mdi mdi-file-pdf"></i>empty</a>
+                                                <a href="{% url 'empty_pcn_pdf' li.pcn_nid %}?type=1" ><i class="mdi mdi-file-pdf"></i>data</a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+
+                             </div>
+                </div>
+              </div>
+              </div>
+            </div>
+{% endblock %}
+
+ {% block jss %}
+<script src="{%  static  'datatable2/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{%  static  'datatable2/dataTables.bootstrap.min.js' %}" ></script>
+<script src="{%  static  'datatable2/dataTables.buttons.min.js' %}"></script>
+<script src="{%  static  'datatable2/buttons.flash.min.js' %}"></script>
+<script src="{%  static  'datatable2/jszip.min.js' %}"></script>
+<script src="{%  static  'datatable2/pdfmake.min.js' %}"></script>
+<script src="{%  static  'datatable2/vfs_fonts.js' %}"></script>
+<script src="{%  static  'datatable2/buttons.html5.min.js' %}"></script>
+<script src="{%  static  'datatable2/buttons.print.min.js' %}"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tbl').DataTable( {
+        destroy: true,
+        ordering:false,
+        paging:false,
+        dom: 'Bfrtip',
+        buttons: ['excel'
+        ]
+    } );
+    });
+</script>
+{% endblock %}
+
+
+

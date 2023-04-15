@@ -1,0 +1,111 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% block content %}
+<div id="content-page" class="content-page">
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-12">
+        <div class="iq-card">
+            <div class="iq-card">
+                <div class="iq-card-header d-flex justify-content-between row">
+                   <div class="iq-header-title col-12">
+                      <h4 class="card-title">{% if form %} Edit {% else %}Add  {% endif %} Warehouse Shipment</h4>
+                   </div>
+                   {% if message %}
+                   <div class="alert alert-danger col-12" role="alert">
+                     <div class="iq-alert-icon">
+                       <i class="ri-information-line"></i>
+                    </div>
+                    <div class="iq-alert-text alert-danger">{{message}}</div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <i class="ri-close-line text-danger"></i>
+                     </button>
+                 </div>
+                 {% endif %}
+                </div>
+                <div class="iq-card-body">
+
+                    <form {% if form %} action="{% url 'shipment:edit-warehouse-shipment' shipment_id=form.id%}" {% else %} action="{% url 'shipment:add-warehouse-shipment'%}" {% endif %} method="post">
+                      {% csrf_token %}
+                    <div class="row">
+                         <div class="form-group col-6">
+                            <label for="text">From Warehouse:</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="from_warehouse" required>
+                                <option {% if form %} value={{ form.from_warehouse}} {% else %} selected="" disabled="" {% endif %}> {% if form %} {{ form.from_warehouse.warehouse_name}} {% else %} Select warehouse {% endif %}</option>
+                                {% for warehouse in warehouses %}
+                                <option value="{{warehouse.id}}">{{warehouse.warehouse_name}}</option>
+                                {% endfor %}
+                            </select>
+                         </div>
+                         <div class="form-group col-6">
+                            <label for="text">To Warehouse:</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="to_warehouse" required>
+                              <option {% if form %} value={{ form.to_warehouse}} {% else %} selected="" disabled="" {% endif %}> {% if form %} {{ form.to_warehouse.warehouse_name}} {% else %} Select warehouse {% endif %}</option>
+                                {% for warehouse in warehouses %}
+                                <option value="{{warehouse.id}}">{{warehouse.warehouse_name}}</option>
+                                {% endfor %}
+                            </select>
+                         </div>
+                         <div class="form-group col-6">
+                            <label for="text">Track:</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="track" required>
+                              <option {% if form %} value={{ form.track.id}} {% else %} selected="" disabled="" {% endif %}> {% if form %} {{ form.track.track_name}} {% else %} Select Track {% endif %}</option>
+                                {% for track in tracks %}
+                                <option value="{{track.id}}">{{track.track_name}}</option>
+                                {% endfor %}
+                            </select>
+                         </div>
+                         <div class="form-group col-6">
+                            <label for="text">Driver:</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="driver" required>
+                              <option {% if form %} value={{ form.driver.id}} {% else %} selected="" disabled="" {% endif %}> {% if form %} {{ form.driver.full_name}} {% else %} Select Driver {% endif %}</option>
+                                {% for driver in drivers %}
+                                <option value="{{driver.id}}">{{driver.full_name}}</option>
+                                {% endfor %}
+                            </select>
+                         </div>
+                         <div class="form-group col-6">
+                           <label for="text">Transport Personnel:</label>
+                           <select class="form-control" id="exampleFormControlSelect1" name="personnel" required>
+                              <option {% if form %} value={{ form.personnel.id}} {% else %} selected="" disabled="" {% endif %}> {% if form %} {{ form.personnel.full_name}} {% else %} Transport Personnel {% endif %}</option>
+                             {% for staff in staffs %}
+                             <option value="{{staff.id}}">{{staff.full_name}}</option>
+                             {% endfor %}
+                          </select>
+                        </div>
+                        <div class="form-group col-6">
+                           <label for="text">Reveiving Personnel:</label>
+                           <select class="form-control" id="exampleFormControlSelect1" name="personnel_receiver" required>
+                              <option {% if form %} value={{ form.personnel_receiver.id}} {% else %} selected="" disabled="" {% endif %}> {% if form %} {{ form.personnel_receiver.full_name}} {% else %} Select Personnel {% endif %}</option>
+                             {% for staff in staffs %}
+                             <option value="{{staff.id}}">{{staff.full_name}}</option>
+                             {% endfor %}
+                          </select>
+                        </div>
+                        {% if not form %}
+                         <div class="form-group col-6">
+                            <label for="text"> From Ticket:</label>
+                            <input type="text" class="form-control" name="start_ticket" required>
+                         </div>
+                         <div class="form-group col-6">
+                            <label for="text"> To Ticket:</label>
+                            <input type="text" class="form-control" name="end_ticket" required>
+                         </div>
+                         {% endif %}
+                         <div class="form-group col-6">
+                           <label for="text"> Shipment date:</label>
+                           <input type="date" class="form-control" {% if form %} value="{{form.shipment_date|date:"Y-m-d" }}" {% endif %} name="shipment_date" required>
+                        </div>
+                         <div class="col-12">
+                            <button type="submit" class="btn btn-primary float-right" >{% if form %} Save  {% else %} Create {% endif %}</button>
+                         </div>
+                    </div>
+                   </form>
+                </div>
+             </div>
+        </div>
+       </div>
+       </div>
+      </dev>
+
+{% endblock %}

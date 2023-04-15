@@ -1,0 +1,37 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django-ninja = "*"
+django-environ = "*"
+django-model-utils = "*"
+install = "*"
+qrcode = "*"
+pillow = "*"
+django-countries = "*"
+bcrypt = "*"
+pyjwt = "*"
+python-barcode = "*"
+xhtml2pdf = "*"
+reportlab = "==3.6.6"
+dj-static = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+django-phonenumber-field = "*"
+setuptools-rust = "*"
+pycco = "*"
+django-debug-toolbar = "*"
+django-crispy-forms = "*"
+django-crontab = "*"
+django-celery-results = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+
+[packages.celery]
+extras = [ "redis",]
+version = "*"

@@ -1,0 +1,107 @@
+{% extends "common/base.html" %}
+{% load static
+{% load humanize %}
+{% load tags %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">{{header}}</h4>
+          </div>
+
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                <span >
+                    <a href="{% url 'report:society-market-sale_report'%}" class="btn btn-warning la la-plus-rounded">BACK</a>
+                <a href="{% url 'report:society_market_sale_report_pdf'%}?society={{society}}&market={{market}}&sale_no={{sale_no}}&season={{req.season_id}}" class="btn btn-secondary la la-plus-rounded">PDF DATA</a>
+                </span>
+
+             </div>
+          </div>
+       </div>
+       <div class="iq-card-body">
+           <div class="row">
+                                    <div class="col-md-4"><table class="table " width="50%">
+                                        <tr><td>MARKET</td><td>{{req.market.market_name|upper}}</td></tr>
+                                        <tr><td>SALE DATE</td><td>{{req.sales_date|date:'d M Y'}}</td></tr>
+                                    </table><br/> </div>
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <table class="table" width="50%">
+                                        <tr><td>P/SOCIETY</td><td>{{req.society|upper}}</td></tr>
+                                        <tr><td>SALE NO</td><td>{{req.sales_number}}</td></tr>
+                                    </table>
+                                        <br/>
+                                    </div>
+                                </div>
+
+                                  <table class="table table-bordered">
+                                       <thead>
+                                        <tr>
+                                        <th style="border: 1px solid #e4e9f0;"> </th>
+
+                                         <th colspan="2" style="text-align:center;border: 1px solid #e4e9f0;">BOUGHT</th>
+                                            <th style="text-align:center;border: 1px solid #e4e9f0;">VALUE</th>
+                                           <th style="text-align:center;border: 1px solid #e4e9f0;">DEDUCTION</th>
+                                           <th style="text-align:center;border: 1px solid #e4e9f0;">NET PAY</th>
+                                           <th style="text-align:center;border: 1px solid #e4e9f0;">AVERAGE</th>
+                                         </tr>
+                                       <tr>
+                                            <th style="border: 1px solid #e4e9f0;" >PCN </th>
+                                           <th style="text-align:center;border: 1px solid #e4e9f0;">BALES</th>
+                                           <th style="text-align:center;border: 1px solid #e4e9f0;">KG</th>
+                                            <th style="text-align:center; border: 1px solid #e4e9f0;"></th>
+                                           <th style="text-align:center; border: 1px solid #e4e9f0;"></th>
+                                           <th style="text-align:center; border: 1px solid #e4e9f0;"></th>
+                                           <th style="text-align:center; border: 1px solid #e4e9f0;"></th>
+
+                                       </tr>
+
+
+                                       </thead>
+                                      <tbody>
+
+                                   {% for li in pcns %}
+                                   {% set 0 as ded %}
+                                    {% if li.balesdedu %}{% product li.balesdedu 0.13 as ded %} {% else %} {% set 0 as ded %} {% endif %}
+                                   {% if ded %} {% toa2 ded li.valueb as net %}
+                                   {% elif li.valueb    %}  {% set li.valueb as net %}
+                                   {% else %} {% set 0 as net %} {% endif %}
+                                       <tr>
+                                         <td>{{li.pcnn}} </td>
+
+                                           <td style="text-align:center;">{% if li.balesb %}{{li.balesb}} {% else %} 0 {% endif %} </td>
+                                           <td style="text-align:center;">{% if li.kgb %}{{li.kgb|floatformat:2|intcomma}} {% else %} 0 {% endif %}</td>
+                                           <td style="text-align:center;">{% if li.valueb %}{{li.valueb|floatformat:3|intcomma}} {% else %} 0 {% endif %}</td>
+                                           <td style="text-align:center;">{% if li.balesdedu %}{% product li.balesdedu 0.13 as ded %} {{ded|floatformat:3|intcomma}}   {% else %} - {% endif %}</td>
+                                            <td style="text-align:center;"  >{{net|floatformat:3|intcomma}}</td>
+                                           <td style="text-align:center;"><!--{% if li.kgb and li.valueb %}{% divd li.valueb li.kgb as avg %} {{avg|floatformat:3|intcomma}} {% else %} 0 {% endif %}--></td>
+                                       </tr>
+                                    {% endfor %}
+                                      {% for li in pcns_total %}
+                                       <tr>
+
+                                         <td  bgcolor="e5e5e5">TOTAL</td>
+
+                                           <td style="text-align:center;"  bgcolor="e5e5e5">{% if li.balesb %}{{li.balesb}} {% else %} 0 {% endif %} </td>
+                                           <td style="text-align:center;"  bgcolor="e5e5e5">{% if li.kgb %}{{li.kgb|floatformat:3|intcomma}} {% else %} 0 {% endif %}</td>
+                                            <td style="text-align:center;"  bgcolor="e5e5e5">{% if li.valueb %}{{li.valueb|floatformat:3|intcomma}} {% else %} 0 {% endif %}</td>
+                                            <td style="text-align:center;" bgcolor="e5e5e5">{% if li.balesdedu %}{% product li.balesdedu 0.13 as ded %}  {{ded|floatformat:3|intcomma}} {% else %} - {% endif %}</td>
+                                            <td style="text-align:center;"  bgcolor="e5e5e5">{% if ded %}{% toa ded li.valueb as net %} {{net|floatformat:3|intcomma}} {% else %} 0 {% endif %}</td>
+                                           <td style="text-align:center;"  bgcolor="e5e5e5">{% if li.valueb and li.kgb %}{% divd li.valueb li.kgb as avgt %} {{avgt|floatformat:3|intcomma}} {% else %} 0 {% endif %}</td>
+                                       </tr>
+                                    {% endfor %}
+
+                                            </tbody>
+                                  </table>
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}

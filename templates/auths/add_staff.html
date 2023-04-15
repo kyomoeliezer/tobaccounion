@@ -1,0 +1,62 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-12">
+        <div class="iq-card">
+            <div class="iq-card">
+                <div class="iq-card-header d-flex justify-content-between row">
+                   <div class="iq-header-title col-12">
+                      <h4 class="card-title">{% if form %} Edit {% else %} Add {% endif %} Staff</h4>
+                   </div>
+                   {% if message %}
+                   <div class="alert alert-danger col-6 ml-4" role="alert">
+                     <div class="iq-alert-icon">
+                       <i class="ri-information-line"></i>
+                    </div>
+                    <div class="iq-alert-text alert-danger">{{message}}</div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <i class="ri-close-line text-danger"></i>
+                     </button>
+                 </div>
+                 {% endif %}
+                </div>
+                <div class="iq-card-body">
+
+                  <form {% if form %} action="{% url 'auths:edit-staff' staff_id=form.id%}" {% else %} action="{% url 'auths:add-staff'%}" {% endif %} method="post">
+                      {% csrf_token %}
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label for="text">Full Name:</label>
+                            <input type="text" class="form-control" {% if form %} value="{{form.full_name}}" {% endif %} name="full_name" required>
+                        </div>
+                         <div class="form-group col-6">
+                            <label for="text">Phone Number:</label>
+                            <input type="text" maxlength="10" class="form-control" {%if form%} value="{{form.phone_number}}" {% endif %} name="phone_number" required>
+                         </div>
+                         <div class="form-group col-6">
+                            <label for="text">Role:</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="role" required>
+                                <option {%if form%} value="{{form.role.id}}" {% else %} selected="" disabled="" {% endif %}> {% if form %} {{ form.role.role_name }} {% else %} Select Role {% endif %}</option>
+                                {% for role in roles %}
+                                <option value="{{role.id}}">{{role.role_name}}</option>
+                                {% endfor %}
+                            </select>
+                         </div>
+
+                         <div class="col-12">
+                            <button type="submit" class="btn btn-primary float-right" >{% if form %} Save {% else %} Create {% endif %}</button>
+                         </div>
+                    </div>
+                   </form>
+                </div>
+             </div>
+        </div>
+       </div>
+       </div>
+      </dev>
+
+{% endblock %}

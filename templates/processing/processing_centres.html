@@ -1,0 +1,97 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">Lists of Processing Centres</h4>
+          </div>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                <span >
+                <a href="{% url 'processing:add-processing-centre'%}" class="btn btn-primary la la-plus-rounded">Add</a>
+                </span>
+             </div>
+          </div>
+       </div>
+       <div class="iq-card-body">
+          <div class="table-responsive">
+             <table class="table mb-0">
+                <thead class="thead-light">
+                   <tr>
+                      <th scope="col">Centre Name</th>
+                      <th scope="col">Location</th>
+                      <th scope="col">Centre Size</th>
+                      <th scope="col">Action</th>
+                   </tr>
+                </thead>
+                <tbody>
+                  {% if not page_obj %}
+                  <div class="alert alert-info text-center col-md-12">There is No Processing Centre(s) yet!</div>
+                          {% endif %}
+                    {% for centre in page_obj %}
+                   <tr>
+                      <td>{{centre.centre_name}}</td>
+                      <td>{{centre.location}}</td>
+                      <td>{{centre.centre_size}}</td>
+                      <td>
+                        <div class="badge badge-pill badge-info">Edit</div>
+                        <div class="badge badge-pill badge-danger" data-toggle="modal" data-target="#delete{{centre.id}}">Delete</div>
+                        <div id="delete{{centre.id}}" class="modal top" tabindex="-1">
+                           <div class="modal-dialog modal-sm ">
+                               <div class="modal-content bg-white-300">
+                                   <div class="modal-header">
+                                    <center><h5 class="modal-title text-danger" align="center">Warning</h5></center>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                   </div>
+                                   <div class="modal-body">
+                                       <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                          <i class="la la-question-circle text-danger" style="font-size:64px"></i>
+                                           <h6 class="font-weight-semibold">Do you real want to delete?</h6>
+                                       </center>
+                                   </div>
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                                       <a href="{% url 'processing:delete-processing-centre' centre_id=centre.id %}"><button type="button"
+                                               class="btn bg-success">Yes</button></a>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                     </td>
+                   </tr>
+                   {% endfor %}
+                </tbody>
+             </table>
+             {% if page_obj %}
+             <div class="pagination" style="float:center">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-primary" href="?page=1">&laquo; First</a>
+                        <a class="btn btn-primary" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        <a class="btn btn-primary" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+            {% endif %}
+          </div>
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}

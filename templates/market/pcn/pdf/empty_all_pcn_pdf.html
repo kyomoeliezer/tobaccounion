@@ -1,0 +1,251 @@
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>PCN</title>
+    <style type="text/css">
+    {% load tags %}
+{% load humanize %}
+        @page {
+            size: 24.13cm 29.99cm;
+            margin: 1.3cm;
+        }
+       .header th {
+            vertical-align: top;
+            horizontal-align:left;
+            border-top: none;
+             border-left:none;
+            border-right: none;
+
+        }
+         .header {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 5px;
+            background-color: #fff;
+        }
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 2px;
+            background-color: #fff;
+        }
+        .table th,
+        .table td {
+            padding-top: 2px;
+            vertical-align: top;
+            border-top: 1px solid #000;
+             border-left: 1px solid #000;
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding-left:3px;
+        }
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 1px solid #000;
+            background-color: #f2f4f7 !important;
+
+        }
+        .table tbody + tbody {
+            border-top: 2px solid #000;
+        }
+        .table .table {
+            background-color: #fff;
+        }
+        .list-group {
+            display: block;
+            width: 100%;
+            list-style: none;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .list-group p {
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            list-style: none;
+            font-size: 1.1em;
+        }
+        .line{
+        color:blue;
+        }
+
+        .header.left {
+            text-align:left;
+           }
+         .hbottom{
+             margin-top: 7px;
+         }
+       .header .right {
+        text-align:right;
+        }
+        .font17{font-size:17px;}
+        .font15 {font-size:15px;}
+        .font14 {font-size:14px;}
+        .header{
+        width:100%;
+        text-align:left;
+        }
+          .orange{
+            color:orange;
+          }
+          .size9{font-size:9px;}
+           .size10{font-size:10px;}
+           .size11{font-size:11px;}
+           .size12{font-size:12px;text-align: justify;}
+
+
+
+
+
+
+ html {
+  font-family:arial;
+  font-size: 12px;
+}
+
+td {
+  border: 1px solid #726E6D;
+
+}
+.maoni{
+  font-size:14px;
+  font-weight:200px;
+
+}
+
+thead{
+  font-weight:normal;
+
+  background: #e9e8e8;
+  color:black;
+}
+thead.center, tbody.center{
+  text-align:center;
+
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.footer {
+  text-align:right;
+  font-weight:bold;
+}
+.noborder{
+  border:none;
+}
+
+tbody >tr:nth-child(odd) {
+  background: #D1D0CE;
+}
+.font9{
+  font-size:10px;
+}
+.noleft{
+border-left:none;
+}
+.table .noright{
+border-right:none;
+}
+.wavy {
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: red;
+}
+
+
+    </style>
+</head>
+{% set_str requestOB as request %}
+{% for pcn in pcns %}
+<page orientation="l">
+<body>
+ {% load static %}
+                  {% include 'pdf/header_logo.html' %}
+                    {% set_str pcn.request as request  %}
+              <table class="header" style="width: 100%;">
+                   <tr><td colspan="3" style=" text-align:center; border:none;"><h2 style="font-size:23px;font-family: Arial, Helvetica, sans-serif;">GREEN PURCHASE CONTRACT NOTE</h2></td></tr>
+                  <tr ><td colspan="3" style=" text-align:left; border:none; font-size:19px;padding-left:100px;"><span style="color:#191919;marging-left:50px;"><b> No:</b></span><b style="font-size:23px;"><u>{{pcn.pcn_no}}</u></b></td></tr>
+              </table>
+                    <div class="row col-md-12 ">
+                        <table class="table" style="width: 100%; font-size:13px;border:none;font-family: Arial, Helvetica, sans-serif;">
+                                <tr>
+                                    <td class="wavy" style="width:60%;border:none; font-size:17px;">
+                                     <p>Market Center: <b>{{request.market|title }}</b></td>
+                                    <td style="width:40%;border:none;font-size:17px;">
+                                  Sale date: <b>{{request.sales_date }}</b>  </td>
+                                </tr>
+                                <tr>
+                                        <td class="wavy" style="width:60%;border:none;font-size:17px;">
+
+                                            Primary Society: <b>{{request.society|title }}</b>
+
+                                        </td>
+                                        <td style="width:40%;border:none;font-size:17px;">
+                                         Sale No: <b>{{request.sales_number }}</b>
+                                       </td>
+                                    </tr>
+                            <tr>
+                                <td class="wavy" style="width:60%;border:none;font-size:17px;">Mobile Clerk: <b>{{request.market|title }}</b> </td>
+                                 <td style="width:40%;border:none;font-size:17px;">Effective Sale Date: <b>...............................</b></p>
+                                </td>
+                            </tr>
+
+
+                        </table>
+
+
+
+             <table id="items" class="table table-bordered" style="width: 100%; font-size:13px;font-family: Arial, Helvetica, sans-serif;">
+
+                                  <tr>
+                                      <th style="text-align:left;"><span style="font-size:17px;font-family: Arial, Helvetica, sans-serif;">Number</span></th>
+                                      <th><span style="font-size:17px;text-align:center;"> Purchase Grade</span></th>
+                                      <th><span style="font-size:17px;text-align:center;">Purchasing <br/> WT</span></th>
+                                      <th><span style="font-size:17px;text-align:center;">Loading <br/> WT</span></th>
+                                      <th><span style="font-size:17px;text-align:center;">Receiving <br/> WT</span></th>
+                                      <th><span style="font-size:17px;text-align:center;">Grade Price</span></th>
+                                      <th><span style="font-size:17px;text-align:center;">Tobacco<br/>Value</span></th>
+                                      <th><span style="font-size:17px;">Remarks</span></th>
+                                  </tr>
+                 {% get_tickets pcn.id as tickets %}
+                 {%if tickets %}
+                        {% for line in tickets %}
+                                  <tr>
+
+                                       <td><span style="font-size:19px;text-align:center;font-family: Arial, Helvetica, sans-serif;"><b>{{line.ticket.ticket_number}}</b></span></td>
+                                      <td> </td>
+                                      <td> </td>
+                                      <td> </td>
+                                      <td> </td>
+                                      <td> </td>
+                                      <td> </td>
+                                      <td> </td>
+
+                                  </tr>
+
+                                  {% endfor %}
+                 {% endif %}
+
+
+                                </table>
+                   <table class="header hbottom"  style="width: 100%;"><tr><th style="text-align:left;"></th><th style="text-align:left;">NAME</th><th style="text-align:left;">SIGNATURE</th> <th style="text-align:left;padding-bottom:6px;">DATE</th></tr>
+                                   <tr><th style="text-align:left;"><span style="font-size:17px;">Mobile Clerk</span></th><th style="text-align:left;">.......................................................</th><th style="text-align:left;">...................................................</th><th style="text-align:left;">.........................................................<br/></th></tr>
+                                    <tr><th style="text-align:left;"><span style="font-size:17px;">Magefa Buyer</span></th><th style="text-align:left;">.......................................................</th><th style="text-align:left;">...................................................</th><th style="text-align:left;">.........................................................<br/></th></tr>
+                                   <tr><th style="text-align:left;"><span style="font-size:17px;">P/S Leader</span></th><th style="text-align:left;">.......................................................</th><th style="text-align:left;">...................................................</th><th style="text-align:left;">.........................................................<br/></th></tr>
+                                    <tr><th colspan="3" style="border:none;"><span style="font-size:8px; padding-left:100px;">Original:<b>CaptureExpress Software</b>  |  First Copy:<b>Magefa Growers Ltd</b>  |  Second Copy:<b>P/S</b>    | {% if request.personnel %}System Capture Clerk: <b>{{request.personnel.full_name}}</b>{% endif %}  {{date}}</span> </th></tr>
+
+                   </table>
+</page>
+{% endfor %}
+
+</html>
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+{% load static %}
+<script src="{%  static  'bootstrap-notification/bootstrap-notify.min.js' %}" type="text/javascript"></script>
+{% if saving %}
+<script>
+
+var notify = $.notify('<strong>Saving</strong> You can proceed with other activities!', {
+	allow_dismiss: false,
+	showProgressbar: true,
+	delay:300
+});
+setTimeout(function() {
+	notify.update({'type': 'success', 'message': '<strong><i class="fa fa-check-square-o" aria-hidden="true"></i>Success</strong> Data have been saved!', 'progress': 25});
+}, 4500);
+
+</script>
+{% endif %}
+
+{% for msg in messages %}
+{% if msg.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+<script>
+$.notify('{{msg.message|safe}}', {
+type:'warning',
+	animate: {
+		enter: 'animated fadeInRight',
+		exit: 'animated fadeOutRight'
+	}
+});
+
+
+</script>
+{% endif %}
+{% endfor %}
+
+ {% for msg in messages %}
+{% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+<script>
+$.notify(' <i class="fa fa-check-square-o" aria-hidden="true"></i>{{msg.message}}', {
+type:'success',
+	animate: {
+		enter: 'animated fadeInRight',
+		exit: 'animated fadeOutRight'
+	}
+});
+
+
+</script>
+{% endif %}
+{% endfor %}
+

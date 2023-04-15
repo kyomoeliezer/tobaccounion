@@ -1,0 +1,184 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load tags %}
+{% load humanize %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title"> EXCEDDED WEIGHTS</h4>
+          </div>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                <span >
+                
+             </div>
+          </div>
+       </div>
+        <div class="col-md-12 row"><!--ROW -->
+        <!--FIRST BOX-->
+            <div class="col-md-6">
+                <div class="col-md-12">
+                <div class="iq-card-body">
+          
+
+
+                                 
+
+                                            <div class="table-responsive">
+                                                <h4>MARKET DATA</h4>
+                                                 <table class="table mb-0 tbl">
+                                                    <thead class="thead-light ">
+                                                       <tr>
+                                                      <!--   <th scope="col"  style="text-align:center;">SN</th> -->
+                                                  
+                                                          <th scope="col"  style="text-align:center;">TICKET</th>
+                                                          <th scope="col"  style="text-align:center;">BUYING GRADE</th>
+                                                          <th scope="col"  style="text-align:center;">FARMER WEIGHT</th>
+                                                          <th scope="col"  style="text-align:center;">BUYER</th>
+                                                          <th scope="col"  style="text-align:center;"></th>
+
+                                                          
+                                                       </tr>
+                                                    </thead>
+                                                    <tbody>
+                                      
+                                                    {% for line in bales %}
+                                                       <tr>
+                                                       <!--  <td  style="text-align:center;">{{forloop.counter}}</td> -->
+                                                       
+                                                          
+                                                           <td  style="text-align:center;">{{line.ticket.ticket_number}}</td>
+                                                           <td  style="text-align:center;">{{line.grade.grade_name}}</td>
+                                                           <td  style="text-align:center;">
+
+                                                                {% if line.primary_weight > 90 %} <span class="text-danger">{{line.primary_weight}}</span>{% else %} {{line.primary_weight}} {% endif %} 
+                                                           </td>
+                                                           <td  style="text-align:center;">{{line.buyer_code}}</td>
+                                                            <td  style="text-align:center;">
+                                                                 <a href="{% url 'market:edit_bale' bale_id=line.id %}" class="badge badge-pill badge-info"><i class="las la-pen-square"></i></a>
+                                                            </td>
+                                                          
+                                                         
+
+                                                       </tr>
+                                                       {% endfor %}
+                                                    
+                                                     
+                                                    </tbody>
+                                                 </table>
+
+
+                                     </div>
+                </div>
+                </div>
+       
+            </div>
+        <!--END OF FIRST BOX-->
+        <!--BODY BIG RIGHT-->
+            <div class="col-md-6">
+               
+     <!--MARKET TO WAREHOUSE SHIPMENT-->
+          <div class="table-responsive">
+            <h4>MARKET TO WAREHOUSE</h4>
+             <table class="table mb-0 tbl">
+                <thead class="thead-light ">
+                   <tr>
+                  <!--   <th scope="col"  style="text-align:center;">SN</th> -->
+              
+                      <th scope="col"  style="text-align:center;">TICKET</th>
+                      <th scope="col"  style="text-align:center;">TRANSPORT WEIGHT</th>
+                      <th scope="col"  style="text-align:center;">RECEIVING WEIGHT</th>
+                       <th scope="col"  style="text-align:center;"></th>
+
+                      
+                   </tr>
+                </thead>
+                <tbody>
+              
+                {% for line in mshipment %}
+                   <tr>
+               
+                       <td  style="text-align:center;">{{constn}}{{line.bale.ticket.ticket_number}}</td>
+                       <td  style="text-align:center;">{% if line.transport_weight > 90 %} <span class="text-danger">{{line.transport_weight}}</span>{% else %} {{line.transport_weight}} {% endif %} </td>
+                       <td  style="text-align:center;">
+                            {% if line.received_weight > 90 %} <span class="text-danger">{{line.received_weight}}</span>{% else %} {{line.received_weight}} {% endif %}
+                       </td>
+                       <td  style="text-align:center;">
+                                <a href="{% url 'market:edit_marketShipment_bale' trans_id=line.id %}" class="badge badge-pill badge-info"><i class="las la-pen-square"></i></a>
+                        </td>
+                   </tr>
+                   {% endfor %}
+                
+                 
+                </tbody>
+             </table>
+
+          </div>
+
+<!--END MARKET-->
+    <div class="table-responsive">
+            <h4>PROCESSING SHIPMENT</h4>
+             <table class="table mb-0 tbl">
+                <thead class="thead-light ">
+                   <tr>
+                  <!--   <th scope="col"  style="text-align:center;">SN</th> -->
+              
+                      <th scope="col"  style="text-align:center;">TICKET</th>
+                      <th scope="col"  style="text-align:center;">TRANSPORT WEIGHT</th>
+                      <th scope="col"  style="text-align:center;">RECEIVING WEIGHT</th>
+                      
+                   </tr>
+                </thead>
+                <tbody>
+              
+                {% for line in gshipment %}
+                   <tr>
+               
+                       <td  style="text-align:center;">{{constn}}{{line.bale.ticket.ticket_number}}</td>
+                       <td  style="text-align:center;">{{line.transport_weight}}</td>
+                       <td  style="text-align:center;">{{line.received_weight}}</td>
+                       <td  style="text-align:center;">
+                                <a href="{% url 'market:edit_GeneralShipment_bale' transb_id=line.id %}" class="badge badge-pill badge-info"><i class="las la-pen-square"></i></a>
+                        </td>
+                   </tr>
+                   {% endfor %}
+                
+                 
+                </tbody>
+             </table>
+
+          </div>
+
+      
+        <!--BODY 2-->
+            </div><!--ROW /-->
+
+
+            <!--SHIPMENT INFOR -->
+    
+      </div>
+
+            <!--END-->
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+     {% block js %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tbl').DataTable( {
+            paging:false,
+            ordering:false,
+
+    } );
+    });
+</script>
+{% endblock %}

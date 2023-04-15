@@ -1,0 +1,96 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load easy %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">{{header}}</h4>
+          </div>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                
+
+             </div>
+          </div>
+       </div>
+       <div class="iq-card-body">
+         <div class="row col-md-12">
+        
+     
+          <div class="table-responsive">
+                <table class="table table-bordered tbl">
+                  <thead>
+               <tr>
+                  <th>SHIPMENT</th>
+                  <th>FROM</th>
+                  <th>TO</th>
+                  <th>SHIPPED BALES</th>
+                    <th>SHIPPED KGS</th>
+                   <th>REVEIVED BALES</th>
+                    <th>RECEIVED KGS</th>
+               </tr>
+               </thead>
+               <tbody>
+               {% for total in summaries %}
+               <tr>
+                  <td>{{total.shipmentno}}{{total.shipid}}</td>
+                  <td>{{total.fromw}}</td>
+                  <td>{{total.tow}}</td>
+                  <td>{{total.bls|intcomma}}</td>
+                  <td style="text-align:right;">{{total.summ|floatformat:2|intcomma}}</td>
+                   {% receiving_data total.gid as totalv %}
+                   <td>{{totalv.nbales|intcomma}}</td>
+                  <td style="text-align:right;">{{totalv.Rweight|floatformat:2|intcomma}}</td>
+               </tr>
+               {% endfor %}
+                   <tr>
+                      <td bgcolor="#e5e5e5"><b>TOTAL</b></td>
+                        <td bgcolor="#e5e5e5"><b></b></td>
+                          <td bgcolor="#e5e5e5"><b></b></td>
+                      <td bgcolor="#e5e5e5"><b>{{totals.bls|intcomma}}</b></td>
+                      <td bgcolor="#e5e5e5" style="text-align:right;"><b>{{totals.summ|floatformat:2|intcomma}}</b></td>
+                        {% receiving_data_total as totalv %}
+                       <td>{{totalv.nbales|intcomma}}</td>
+                      <td style="text-align:right;">{{totalv.Rweight|floatformat:2|intcomma}}</td>
+                   </tr>
+               </tbody>
+             </table>
+          
+       </div>
+    </div>
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+{% block js %}
+{% load static %}
+<script type="text/javascript" src="{% static 'datatable/dataTables.buttons.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/jszip.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/pdfmake.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/vfs_fonts.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/buttons.html5.min.js' %}"></script>
+
+   <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tbl').DataTable( {
+        destroy: true,
+        paging:false,
+        ordering:false,
+        dom: 'Bfrtip',
+
+        buttons: [
+         'excel'
+        ]
+    } );
+    });
+</script>
+{% endblock %}

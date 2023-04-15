@@ -1,0 +1,196 @@
+<html>
+<script type="text/javascript">
+        function modal_confirm_reverse_verify(delete_url)
+    {
+        jQuery('#modal_confirm_verify_reverse').modal('show', {backdrop: 'static'});
+        document.getElementById('modal_confirm_verify_reverse_id').setAttribute('href' , delete_url);
+    }
+      function modal_confirm_verify(url_url)
+    {
+        jQuery('#modal_confirm_verify').modal('show', {backdrop: 'static'});
+        document.getElementById('modal_confirm_verify_id').setAttribute('href' , url_url);
+    }
+    function modal_please_wait()
+        {
+             jQuery('#modal_wait_now').modal('show', {backdrop: 'static'});
+            
+        }
+
+   function modal_hakitoshi()
+    {
+        jQuery('#modal_hakitoshi').modal('show', {backdrop: 'static'});
+    }
+      function please_noprice(grade_name)
+    {
+        jQuery('#modal_no_grade_no_price').modal('show', {backdrop: 'static'});
+    }
+        function modal_common(url_url)
+    {
+        jQuery('#modal_common').modal('show', {backdrop: 'static'});
+        document.getElementById('modal_common_id').setAttribute('href' , url_url);
+    }
+
+       function modal_resending(url_url)
+    {
+        jQuery('#modal_resending').modal('show', {backdrop: 'static'});
+        document.getElementById('modal_resending_id').setAttribute('href' , url_url);
+    }
+
+
+    </script>
+<!-----NOTIFICATION POPUP---->
+<!---WEIGHT IS NOT ENOUGHT--->
+                <div id="modal_hakitoshi" class="modal top" tabindex="-1">
+                           <div class="modal-dialog modal-lg ">
+                               <div class="modal-content bg-white-300">
+                                   <div class="modal-header">
+                                    <center><h5 class="modal-title text-danger" align="center">Warning</h5></center>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                   </div>
+                                   <div class="modal-body">
+                                       <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                          <i class="la la-question-circle text-danger" style="font-size:64px"></i>
+                                           <h6 class="font-weight-semibold">Weight must not be empty and must be greater or equal 0 and less than or equal 100, <br/> System is not saving until proper weight are filled </h6>
+                                       </center>
+                                   </div>
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-danger text-white" data-dismiss="modal">OK</button>
+
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+<!--END WEIGHT NOT ENOUGH /-->
+<!---WEIGHT IS NOT ENOUGHT--->
+<!---NO GRADE NO PRICE -->
+             <div id="modal_no_grade_no_price" class="modal top" tabindex="-1">
+                           <div class="modal-dialog modal-lg ">
+                               <div class="modal-content bg-white-300">
+                                   <div class="modal-header">
+                                    <center><h5 class="modal-title text-danger" align="center">Warning</h5></center>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                   </div>
+                                   <div class="modal-body">
+                                       <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                          <i class="la la-question-circle text-danger" style="font-size:64px"></i>
+                                           <h6 class="font-weight-semibold">The grade is not available retype it<br/> <b>There is no price for this grade</b></h6>
+                                       </center>
+                                   </div>
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-danger text-white" data-dismiss="modal">OK</button>
+
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+<!---NO GRADE NO PRICE / -->
+<!---CONFIRM VERIFY PCN -->
+             <div id="modal_confirm_verify" class="modal top" tabindex="-1">
+                           <div class="modal-dialog modal-lg ">
+                               <div class="modal-content bg-white-300">
+                                   <div class="modal-header">
+                                    <center><h5 class="modal-title text-danger" align="center">Warning</h5></center>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                   </div>
+                                   <div class="modal-body">
+                                       <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                          <i class="la la-question-circle text-danger" style="font-size:64px"></i>
+                                           <h6 class="font-weight-semibold">Do you want to verify this PCN and its TICKETS. Are they ok for now?</b></h6>
+                                       </center>
+                                   </div>
+
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                                       <a href="" id="modal_confirm_verify_id"><button type="button"
+                                               class="btn bg-success">Yes</button></a>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+<!--- / -->
+<!---CONFIrm common -->
+             <div id="modal_common" class="modal top" tabindex="-1">
+                           <div class="modal-dialog modal-lg ">
+                               <div class="modal-content bg-white-300">
+                                   <div class="modal-header">
+                                    <center><h5 class="modal-title text-danger" align="center">Warning</h5></center>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                   </div>
+                                   <div class="modal-body">
+                                       <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                          <i class="la la-question-circle text-danger" style="font-size:64px"></i>
+                                           <h6 class="font-weight-semibold">Do you want to do this ?</b></h6>
+                                       </center>
+                                   </div>
+
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                                       <a href="" id="modal_common_id"><button type="button"
+                                               class="btn bg-success">Yes</button></a>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+<!---NO GRADE NO PRICE / -->
+<!--NOTIFICATION/-->
+{% load static %}
+<!---CONFIrm common -->
+             <div id="modal_wait_now" class="modal top" tabindex="-1">
+                           <div class="modal-dialog modal-lg ">
+                               <div class="modal-content bg-white-300">
+                                   <div class="modal-header">
+                                    <center><h5 class="modal-title text-danger" align="center">Please wait</h5></center>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                   </div>
+                                   <div class="modal-body">
+                                       <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                          <i class="la la-question-circle text-danger" style="font-size:64px"></i>
+                                           <h6 class="font-weight-semibold">Please wait!!!! do not click</b></h6>
+                                       </center>
+                                       <center>
+                                           <img src="{% static 'loading/processing-download.gif' %}" />
+                                       </center>
+                                   </div>
+
+                                   <div class="modal-footer">
+                                       
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+<!---NO GRADE NO PRICE / -->
+
+<!-----NOTIFICATION POPUP---->
+<!---RESENDING EMAILS--->
+                <div id="modal_resending" class="modal top" tabindex="-1">
+                           <div class="modal-dialog modal-lg ">
+                               <div class="modal-content bg-white-300">
+                                   <div class="modal-header">
+                                    <center><h5 class="modal-title text-danger" align="center">Warning</h5></center>
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                   </div>
+                                   <div class="modal-body">
+                                       <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                          <i class="la la-question-circle text-danger" style="font-size:64px"></i>
+                                           <h6 class="font-weight-semibold">You are about to send again ,,is it?</b></h6>
+                                       </center>
+                                   </div>
+
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                                       <a href="" id="modal_resending_id"><button type="button"
+                                               class="btn bg-success">Yes</button></a>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+<!--END WEIGHT NOT ENOUGH /-->
+
+
+</html>

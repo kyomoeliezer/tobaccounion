@@ -1,0 +1,70 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+   <span >
+                <a href="{% url 'market:add-print-request'%}" class="btn btn-primary la la-plus-rounded">Add</a>
+                </span>
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">BOXES</h4>
+          </div>
+       </div>
+       <div class="iq-card-body">
+          <div class="table-responsive">
+             <table class="table mb-0 tbl">
+                <thead class="thead-light">
+                   <tr>
+
+                      <th scope="col">BOX</th>
+                      <th scope="col">TOTAL TICKET</th>
+                      <th scope="col">Initial Ticket</th>
+                      <th scope="col">Final Ticket</th>
+                      <th scope="col">Used Tickets</th>
+                       <th scope="col">Available Tickets</th>
+                       <th scope="col">Mannual</th>
+
+                   </tr>
+                </thead>
+
+                <tbody>
+                    {% if not boxes %}
+            <div class="alert alert-info text-center col-md-12">There is No Ticket yet!</div>
+                    {% endif %}
+                    {% for request in  boxes %}
+                   <tr {% if request.is_mannual1 %} style="background-color: #FDEDEC;" {% endif %}>
+                      <td>{{request.rname}} </td>
+                      <td>{{request.total}}</td>
+                      <td>{{request.mint}}</td>
+                      <td>{{request.maxt}}</td>
+                      <td>{{request.used}}</td>
+                       <td>{{request.available}}</td>
+                       <td>{% if request.is_mannual %} Mannual {%endif%}</td>
+
+                   </tr>
+                   {% endfor %}
+                </tbody>
+             </table>
+
+          </div>
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.tbl').DataTable( {
+    ordering:false,
+    paging:false,
+} );
+});
+</script>
+{% endblock %}

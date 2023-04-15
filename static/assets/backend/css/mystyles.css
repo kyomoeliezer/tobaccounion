@@ -1,0 +1,5 @@
+.iq-sidebar-menu .iq-menu li a[aria-expanded="true"] i.iq-arrow-left, .iq-sidebar-menu .iq-menu li.active > a > i.iq-arrow-left, .iq-sidebar-menu .iq-menu li.active-menu > a > i.iq-arrow-left {
+    background: #28a745;
+    color: var(--iq-white);
+}
+

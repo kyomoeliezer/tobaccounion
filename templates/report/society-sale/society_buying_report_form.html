@@ -1,0 +1,78 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div id="content-page" class="content-page">
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-12">
+        <div class="iq-card">
+            <div class="iq-card">
+                <div class="iq-card-header d-flex justify-content-between row">
+                   <div class="iq-header-title col-12">
+                      <h4 class="card-title">{{header}}</h4>
+                   </div>
+                   {% if message %}
+                   <div class="alert alert-danger col-6 ml-4" role="alert">
+                     <div class="iq-alert-icon">
+                       <i class="ri-information-line"></i>
+                    </div>
+                    <div class="iq-alert-text alert-danger">{{message}}</div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <i class="ri-close-line text-danger"></i>
+                     </button>
+                 </div>
+                 {% endif %}
+                </div>
+                <div class="iq-card-body">
+
+                   <form action="" method="post">
+                      {% csrf_token %}
+                    <div class="row">
+                         <div class="col">
+                        {{form.season|as_crispy_field}}
+                      </div>
+                    
+                    <div class="col-12">
+                                         <button type="submit" name="post_type" value="" class="btn btn-primary mr-2"> GET REPORT</button>
+                    </div>
+                    </div>
+                   </form>
+                </div>
+             </div>
+        </div>
+       </div>
+       </div>
+      </dev>
+
+
+{% endblock %}
+                 {% block js %}
+                <script>
+
+                function change_sale_no(){
+                var market=$('#market_id').val();
+                var society=$('#society_id').val();
+                var season=$('#season_id').val();
+                if((society != '') && (market != '')){
+                //alert(market+'   '+society+' '+season);
+                $.ajax({
+                        type: "GET",
+                        data: {'market':market,'society':society,'season':season},
+                        url: "{% url 'report:get-sale-no' %}",
+                        success: function(data){
+                        //alert(data);
+                          $("#saleno_id").html(data);
+                            }
+                        });
+                     }
+                     }
+                $(document).ready(function() {
+                $("#society_id").blur(change_sale_no);
+                $("#market_id").change(change_sale_no);
+                $("#market_id").blur(change_sale_no);
+                $("#society_id").change(change_sale_no);
+
+                   });
+                 </script>
+             {% endblock %}

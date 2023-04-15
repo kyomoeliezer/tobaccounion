@@ -1,0 +1,121 @@
+{% extends "common/base.html" %}
+{% load static
+{% load humanize %}
+{% load tags %}
+
+{% block content %}
+<div id="content-page" class="content-page">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+       <div class="iq-card-header d-flex justify-content-between">
+          <div class="iq-header-title">
+             <h4 class="card-title">{{header}}</h4>
+          </div>
+
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+             <div class="dropdown">
+                <!-- <span >
+                    <a href="{% url 'report:society-market-sale_report'%}" class="btn btn-warning la la-plus-rounded">BACK</a>
+                <a href="{% url 'report:society_market_sale_report_pdf'%}?society={{society}}&market={{market}}&sale_no={{sale_no}}&season={{req.season_id}}" class="btn btn-secondary la la-plus-rounded">PDF DATA</a>
+                </span> -->
+
+             </div>
+          </div>
+       </div>
+       <div class="iq-card-body">
+           
+
+                                 <table class="table table-bordered tbl" >
+                                       <thead>
+                                        <tr>
+                                        <th style="border: 1px solid #e4e9f0;">P/SOCIETY </th>
+                                            <th style="border: 1px solid #e4e9f0;">TOTAL SALES </th>
+
+                                         <th style="text-align:center;border: 1px solid #e4e9f0;">BALES</th>
+                                             <th style="text-align:center;border: 1px solid #e4e9f0;">KG</th>
+                                            <th style="text-align:center;border: 1px solid #e4e9f0;">VALUE</th>
+                                             <th style="text-align:center;border: 1px solid #e4e9f0;">DEDUCTION</th>
+                                              <th style="text-align:center;border: 1px solid #e4e9f0;">NET PAY</th>
+
+                                           <th style="text-align:center;border: 1px solid #e4e9f0;">AVERAGE</th>
+                                         </tr>
+
+
+
+                                       </thead>
+                                      <tbody>
+
+                                   {% for li in pcns %}
+                                    {% set 0 as ded %}
+                                  
+                                       <tr>
+                                         <td>{{li.psociety}} </td>
+                                            <td>{{li.salenos}} </td>
+
+                                           <td style="text-align:center;">{% if li.balesb %}{{li.balesb}} {% else %} 0 {% endif %} </td>
+                                           <td style="text-align:center;">{% if li.kgb %}{{li.kgb|floatformat:2|intcomma}} {% else %} 0 {% endif %}</td>
+                                           <td style="text-align:center;">{% if li.valueb %}{{li.valueb|floatformat:3|intcomma}} {% else %} 0 {% endif %}</td>
+                                           <td style="text-align:right;" ><span style="font-size:17px;">{% if li.balesdedu %}{% product li.balesdedu 0.13 as ded %}  {{ded|floatformat:3|intcomma}} {% else %} - {% endif %}</span></td>
+
+                                            {% if ded %} {% toa2 ded li.valueb as net %}
+                                   {% elif li.valueb    %}  {% set li.valueb as net %}
+                                   {% else %} {% endif %}
+                                            <td style="text-align:right;"  ><span style="font-size:17px;"> {{net|floatformat:3|intcomma}} </span></td>
+                                           <td style="text-align:center;"> </td>
+                                       </tr>
+                                    {% endfor %}
+                                      {% for li in pcns_total %}
+                                       {% set 0 as ded %}
+                                 
+                                       <tr>
+
+                                           <td  colspan="1" bgcolor="e5e5e5" style="padding:6px;">TOTAL</td>
+                                           <TD bgcolor="#e5e5e5">{{li.salenos}}</TD>
+
+                                           <td style="text-align:center;"  bgcolor="e5e5e5">{% if li.balesb %}{{li.balesb}} {% else %} 0 {% endif %} </td>
+                                           <td style="text-align:center;"  bgcolor="e5e5e5">{% if li.kgb %}{{li.kgb|floatformat:3|intcomma}} {% else %} 0 {% endif %}</td>
+                                            <td style="text-align:center;"  bgcolor="e5e5e5">{% if li.valueb %}{{li.valueb|floatformat:3|intcomma}} {% else %} 0 {% endif %}</td>
+                                            <td style="text-align:right;" bgcolor="e5e5e5" ><span style="font-size:17px;">{% if li.balesdedu %}{% product li.balesdedu 0.13 as ded %}  {{ded|floatformat:3|intcomma}} {% else %} - {% endif %}</span></td>
+
+                                              {% if ded %} {% toa2 ded li.valueb as net %}
+                                               {% elif li.valueb    %}  {% set li.valueb as net %}
+                                               {% else %} {% endif %}
+                                            <td style="text-align:right;" bgcolor="e5e5e5" ><span style="font-size:17px;"> {{net|floatformat:3|intcomma}} </span></td>
+                                           <td style="text-align:center;"  bgcolor="e5e5e5">{% if li.valueb and li.kgb %}{% divd li.valueb li.kgb as avgt %} {{avgt|floatformat:-2|intcomma}} {% else %} 0 {% endif %}</td>
+                                       </tr>
+                                    {% endfor %}
+
+                                            </tbody>
+                                  </table>
+       </div>
+    </div>
+ </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+{% load static %}
+<script type="text/javascript" src="{% static 'datatable/dataTables.buttons.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/jszip.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/pdfmake.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/vfs_fonts.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatable/buttons.html5.min.js' %}"></script>
+
+   <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tbl').DataTable( {
+        destroy: true,
+        paging:false,
+        ordering:false,
+        dom: 'Bfrtip',
+
+        buttons: [
+         'excel'
+        ]
+    } );
+    });
+</script>
+{% endblock %}
